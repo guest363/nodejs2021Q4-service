@@ -1,11 +1,12 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
+import express from 'express';
+import path from 'path';
+import swaggerUI from 'swagger-ui-express';
+import YAML from 'yamljs';
+import { userRouter } from './resources/users/user.router.js';
+import { __dirname } from './variables.js';
 
 const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+const swaggerDocument = YAML.load(path.join(__dirname, './doc/api.yaml'));
 
 app.use(express.json());
 
@@ -21,4 +22,4 @@ app.use('/', (req, res, next) => {
 
 app.use('/users', userRouter);
 
-module.exports = app;
+export default app;
