@@ -1,16 +1,18 @@
-import express from 'express';
+import fastify from 'fastify';
+import swaggerUI from 'fastify-swagger';
 import path from 'path';
-import swaggerUI from 'swagger-ui-express';
 import YAML from 'yamljs';
 import { userRouter } from './resources/users/user.router.js';
 import { __dirname } from './variables.js';
 
-const app = express();
+const app = fastify({ logger: true });
+
 const swaggerDocument = YAML.load(path.join(__dirname, './doc/api.yaml'));
 
-app.use(express.json());
-
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+fastify.register(swaggerUI, {
+  routePrefix: '/doc',
+  swagger: swaggerDocument,
+});
 
 app.use('/', (req, res, next) => {
   if (req.originalUrl === '/') {
