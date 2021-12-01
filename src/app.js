@@ -1,27 +1,43 @@
-import fastify from 'fastify';
+import Fastify from 'fastify';
 import swaggerUI from 'fastify-swagger';
 import path from 'path';
 import YAML from 'yamljs';
 import { userRouter } from './resources/users/user.router.js';
 import { __dirname } from './variables.js';
 
-const app = fastify({ logger: true });
+export default async function buildApp() {
+  const app = Fastify({ logger: true });
 
-const swaggerDocument = YAML.load(path.join(__dirname, './doc/api.yaml'));
+  const swaggerDocument = YAML.load(path.join(__dirname, './doc/api.yaml'));
 
-fastify.register(swaggerUI, {
-  routePrefix: '/doc',
-  swagger: swaggerDocument,
-});
+  app.register(swaggerUI, {
+    routePrefix: '/doc',
+    swagger: swaggerDocument,
+    uiConfig: {
+      docExpansion: 'full',
+      deepLinking: false,
+    },
+    uiHooks: {
+      onRequest (request, reply, next) {
+        next();
+      },
+      preHandler (request, reply, next) {
+        next();
+      },
+    },
+    staticCSP: true,
+    transformStaticCSP: (header) => header,
+    exposeRoute: true,
+  });
 
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
-  }
-  next();
-});
+  app.route({
+    method: 'GET',
+    url: '/',
+    handler: (request, reply) => {
+      reply.send('Service is running!');
+    },
+  });
 
-app.use('/users', userRouter);
-
-export default app;
+  app.register(userRouter, { prefix: '/users' });
+  return app;
+}
