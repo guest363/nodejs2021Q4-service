@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import swaggerUI from 'fastify-swagger';
 import path from 'path';
 import YAML from 'yamljs';
+import { boardRouter } from './resources/boards/board.router.js';
 import { userRouter } from './resources/users/user.router.js';
 import { __dirname } from './variables.js';
 
@@ -18,10 +19,10 @@ export default async function buildApp() {
       deepLinking: false,
     },
     uiHooks: {
-      onRequest (request, reply, next) {
+      onRequest(request, reply, next) {
         next();
       },
-      preHandler (request, reply, next) {
+      preHandler(request, reply, next) {
         next();
       },
     },
@@ -39,5 +40,6 @@ export default async function buildApp() {
   });
 
   app.register(userRouter, { prefix: '/users' });
+  app.register(boardRouter, { prefix: '/boards' });
   return app;
 }

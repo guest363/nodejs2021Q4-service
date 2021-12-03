@@ -1,6 +1,6 @@
 import { usersService } from '../user.service.js';
 
 export const get = async (request, reply) => {
-  const users = await usersService.getAll();
-  reply.send(users);
+  const user = await usersService.getAll();
+  reply.send(user);
 };
