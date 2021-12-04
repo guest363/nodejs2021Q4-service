@@ -3,6 +3,7 @@ import swaggerUI from 'fastify-swagger';
 import path from 'path';
 import YAML from 'yamljs';
 import { boardRouter } from './resources/boards/board.router.js';
+import { taskRouter } from './resources/tasks/task.router.js';
 import { userRouter } from './resources/users/user.router.js';
 import { __dirname } from './variables.js';
 
@@ -41,5 +42,7 @@ export default async function buildApp() {
 
   app.register(userRouter, { prefix: '/users' });
   app.register(boardRouter, { prefix: '/boards' });
+  app.register(taskRouter, { prefix: '/boards' });
+
   return app;
 }
