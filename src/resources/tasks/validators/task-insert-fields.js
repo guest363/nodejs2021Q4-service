@@ -8,6 +8,6 @@ export const taskInsertFields = {
     boardId: { type: ['string', 'null'], format: 'uuid' },
     columnId: { type: ['string', 'null'], format: 'uuid' },
   },
-  required: ['title', 'order', 'description', 'userId', 'boardId', 'columnId'],
+  required: ['title', 'order', 'description', 'userId', 'boardId'],
   additionalProperties: false,
 };

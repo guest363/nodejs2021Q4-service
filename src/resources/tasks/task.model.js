@@ -9,9 +9,9 @@ export class Task {
     /**
      * assignee entity
      */
-    userId = '',
-    boardId = '',
-    columnId = '',
+    userId = null,
+    boardId = null,
+    columnId = null,
   } = {}) {
     this.id = id;
     this.title = title;

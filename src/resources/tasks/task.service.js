@@ -6,4 +6,5 @@ export const taskService = {
   getById: (props) => taskRepo.getById(props),
   delete: (props) => taskRepo.delete(props),
   update: (props) => taskRepo.update(props),
+  supportGetAll: () => taskRepo.supportGetAll(),
 };

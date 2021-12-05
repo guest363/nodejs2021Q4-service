@@ -3,8 +3,9 @@ import { taskService } from '../task.service.js';
 
 export const deleteById = async (request, reply) => {
   const { taskId } = request.params;
-  const isTaskExist = taskService.getById(taskId);
-  const isBoardExist = boardService.getById(request.params.boardId);
+  const isTaskExist = await taskService.getById(taskId);
+  const isBoardExist = await boardService.getById(request.params.boardId);
+
   if (!isTaskExist || !isBoardExist) {
     reply.code(404);
     reply.send();

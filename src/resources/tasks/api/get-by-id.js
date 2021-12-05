@@ -2,7 +2,7 @@ import { boardService } from '../../boards/board.service.js';
 import { taskService } from '../task.service.js';
 
 export const getById = async (request, reply) => {
-  const isBoardExist = boardService.getById(request.params.boardId);
+  const isBoardExist = await boardService.getById(request.params.boardId);
   const task = await taskService.getById({
     taskId: request.params.taskId,
   });
