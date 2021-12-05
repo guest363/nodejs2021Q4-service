@@ -1,5 +1,5 @@
 import { taskInsertFields } from '../../validators/task-insert-fields.js';
-import { taskSelectFieldsPut } from '../../validators/task-select-fields.js';
+import { taskSelectFields } from '../../validators/task-select-fields.js';
 import { uuidAsParam } from '../../validators/uuid-as-param.js';
 
 export const putSchema = {
@@ -11,7 +11,7 @@ export const putSchema = {
     response: {
       200: {
         type: 'object',
-        properties: taskSelectFieldsPut,
+        properties: taskSelectFields,
       },
     },
   },

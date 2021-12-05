@@ -1,4 +1,4 @@
-import { taskSelectFieldsPut } from '../../validators/task-select-fields.js';
+import { taskSelectFields } from '../../validators/task-select-fields.js';
 import { uuidAsParam } from '../../validators/uuid-as-param.js';
 
 export const getByIdSchema = {
@@ -7,7 +7,7 @@ export const getByIdSchema = {
     response: {
       200: {
         type: 'object',
-        properties: taskSelectFieldsPut,
+        properties: taskSelectFields,
       },
     },
   },

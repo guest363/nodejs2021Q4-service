@@ -3,7 +3,9 @@ import { taskService } from '../task.service.js';
 
 export const put = async (request, reply) => {
   const isBoardExist = await boardService.getById(request.params.boardId);
-  const isTaskExist = await taskService.getById(request.params.taskId);
+  const isTaskExist = await taskService.getById({
+    taskId: request.params.taskId,
+  });
 
   if (!isBoardExist || !isTaskExist) {
     reply.code(404);

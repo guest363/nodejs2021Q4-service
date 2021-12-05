@@ -1,6 +1,6 @@
 import { uuidAsParam } from '../../../boards/validators/uuid-as-param.js';
 import { taskInsertFields } from '../../validators/task-insert-fields.js';
-import { taskSelectFieldsPut } from '../../validators/task-select-fields.js';
+import { taskSelectFields } from '../../validators/task-select-fields.js';
 
 export const postSchema = {
   schema: {
@@ -11,7 +11,7 @@ export const postSchema = {
     response: {
       201: {
         type: 'object',
-        properties: taskSelectFieldsPut,
+        properties: taskSelectFields,
       },
     },
   },
