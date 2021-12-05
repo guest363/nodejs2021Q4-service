@@ -5,6 +5,7 @@ export class Task {
     id = uuidv4(),
     title = 'Default task',
     description = 'Some awesome description',
+    order = 0,
     /**
      * assignee entity
      */
@@ -14,7 +15,8 @@ export class Task {
   } = {}) {
     this.id = id;
     this.title = title;
-    this.columns = description;
+    this.description = description;
+    this.order = order;
     this.userId = userId;
     this.boardId = boardId;
     this.columnId = columnId;

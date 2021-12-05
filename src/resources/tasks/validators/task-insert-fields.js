@@ -2,11 +2,12 @@ export const taskInsertFields = {
   type: 'object',
   properties: {
     title: { type: 'string' },
-    columns: { type: 'string' },
-    userId: { type: 'string', format: 'uuid' },
-    boardId: { type: 'string', format: 'uuid' },
-    columnId: { type: 'string', format: 'uuid' },
+    order: { type: 'number' },
+    description: { type: 'string' },
+    userId: { type: ['string', 'null'], format: 'uuid' },
+    boardId: { type: ['string', 'null'], format: 'uuid' },
+    columnId: { type: ['string', 'null'], format: 'uuid' },
   },
-  required: ['title', 'columns', "userId", "boardId", "columnId"],
+  required: ['title', 'order', 'description', 'userId', 'boardId', 'columnId'],
   additionalProperties: false,
 };

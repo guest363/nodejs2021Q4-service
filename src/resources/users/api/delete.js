@@ -1,8 +1,8 @@
 import { usersService } from '../user.service.js';
 
-export const getById = async (request, reply) => {
+export const deleteById = async (request, reply) => {
   const { userId } = request.params;
-  const isUserExist = usersService.has(userId);
+  const isUserExist = usersService.getById(userId);
   if (!isUserExist) {
     reply.code(404);
     reply.send();

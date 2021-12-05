@@ -1,3 +1,4 @@
+import { deleteById } from './api/delete.js';
 import { getById } from './api/get-by-id.js';
 import { get } from './api/get.js';
 import { post } from './api/post.js';
@@ -16,5 +17,5 @@ export const taskRouter = async (fastify) => {
 
   fastify.get('/:boardId/tasks/:taskId', getByIdSchema, getById);
 
-  fastify.delete('/:boardId/tasks/:taskId', getByIdSchema, getById);
+  fastify.delete('/:boardId/tasks/:taskId', getByIdSchema, deleteById);
 };

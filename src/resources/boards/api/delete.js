@@ -1,8 +1,8 @@
 import { boardService } from '../board.service.js';
 
-export const getById = async (request, reply) => {
+export const deleteById = async (request, reply) => {
   const { boardId } = request.params;
-  const isBoardExist = boardService.has(boardId);
+  const isBoardExist = boardService.getById(boardId);
   if (!isBoardExist) {
     reply.code(404);
     reply.send();

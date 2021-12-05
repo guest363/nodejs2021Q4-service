@@ -1,9 +1,9 @@
 import { taskRepo } from './task.memory.repository.js';
 
 export const taskService = {
-  getAll: () => taskRepo.getAll(),
-  create: (info) => taskRepo.create(info),
-  getById: (id) => taskRepo.getById(id),
-  delete: (id) => taskRepo.delete(id),
-  update: (id, board) => taskRepo.update(id, board),
+  getAll: (props) => taskRepo.getAll(props),
+  create: (props) => taskRepo.create(props),
+  getById: (props) => taskRepo.getById(props),
+  delete: (props) => taskRepo.delete(props),
+  update: (props) => taskRepo.update(props),
 };

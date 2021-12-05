@@ -1,8 +1,12 @@
 export const taskSelectFields = {
-  id: { type: 'string' },
   title: { type: 'string' },
-  columns: { type: 'string' },
-  userId: { type: 'string', format: 'uuid' },
-  boardId: { type: 'string', format: 'uuid' },
-  columnId: { type: 'string', format: 'uuid' },
+  order: { type: 'number' },
+  description: { type: 'string' },
+  userId: { type: ['string', 'null'], format: 'uuid' },
+  boardId: { type: ['string', 'null'], format: 'uuid' },
+  columnId: { type: ['string', 'null'], format: 'uuid' },
+};
+export const taskSelectFieldsPut = {
+  id: { type: 'string', format: 'uuid' },
+  ...taskSelectFields,
 };
