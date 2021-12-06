@@ -1,4 +1,4 @@
-import { boardSelectFields } from '../../validators/board-select-fields.js';
+import { boardSelectFields } from '../../validators/board-select-fields';
 
 export const getSchema = {
   schema: {

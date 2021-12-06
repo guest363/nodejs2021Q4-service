@@ -1,4 +1,4 @@
-import { boardService } from '../board.service.js';
+import { boardService } from '../board.service';
 
 export const post = async (request, reply) => {
   const createBoard = await boardService.create(request.body);

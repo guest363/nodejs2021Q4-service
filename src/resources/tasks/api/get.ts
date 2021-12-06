@@ -1,4 +1,4 @@
-import { taskService } from '../task.service.js';
+import { taskService } from '../task.service';
 
 export const get = async (request, reply) => {
   const tasks = await taskService.getAll({

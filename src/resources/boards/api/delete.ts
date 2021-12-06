@@ -1,5 +1,5 @@
-import { taskService } from '../../tasks/task.service.js';
-import { boardService } from '../board.service.js';
+import { taskService } from '../../tasks/task.service';
+import { boardService } from '../board.service';
 
 export const deleteById = async (request, reply) => {
   const { boardId } = request.params;
@@ -10,7 +10,7 @@ export const deleteById = async (request, reply) => {
   } else {
     await boardService.delete(boardId);
     const assignTasks = (await taskService.getAll({ boardId })).filter(
-      (task) => task.boardId === boardId
+      (task) => task.boardId === boardId,
     );
 
     assignTasks.forEach(async (task) => {

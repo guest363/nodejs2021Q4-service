@@ -1,4 +1,4 @@
-import { userSelectFields } from '../../validators/user-select-fields.js';
+import { userSelectFields } from '../../validators/user-select-fields';
 
 export const getSchema = {
   schema: {

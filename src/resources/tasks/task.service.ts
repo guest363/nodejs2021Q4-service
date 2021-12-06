@@ -1,4 +1,4 @@
-import { taskRepo } from './task.memory.repository.js';
+import { taskRepo } from './task.memory.repository';
 
 export const taskService = {
   getAll: (props) => taskRepo.getAll(props),

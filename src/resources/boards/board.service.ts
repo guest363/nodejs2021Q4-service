@@ -1,4 +1,4 @@
-import { boardRepo } from './board.memory.repository.js';
+import { boardRepo } from './board.memory.repository';
 
 export const boardService = {
   getAll: () => boardRepo.getAll(),

@@ -1,10 +1,10 @@
 import Fastify from 'fastify';
 import swaggerUI from 'fastify-swagger';
 import path from 'path';
-import { boardRouter } from './resources/boards/board.router.js';
-import { taskRouter } from './resources/tasks/task.router.js';
-import { userRouter } from './resources/users/user.router.js';
-import { __dirname } from './variables.js';
+import { boardRouter } from './resources/boards/board.router';
+import { taskRouter } from './resources/tasks/task.router';
+import { userRouter } from './resources/users/user.router';
+import { __dirname } from './variables';
 
 export default async function buildApp() {
   const app = Fastify({ logger: true });

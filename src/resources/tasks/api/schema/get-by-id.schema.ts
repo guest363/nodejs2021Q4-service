@@ -1,5 +1,5 @@
-import { taskSelectFields } from '../../validators/task-select-fields.js';
-import { uuidAsParam } from '../../validators/uuid-as-param.js';
+import { uuidAsParam } from '../../../common/validators/uuid-as-param';
+import { taskSelectFields } from '../../validators/task-select-fields';
 
 export const getByIdSchema = {
   schema: {

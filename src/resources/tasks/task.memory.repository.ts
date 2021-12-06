@@ -1,11 +1,11 @@
-import { Task } from './task.model.js';
+import { Task } from './task.model';
 
 const inMemoryDb = new Map();
 
 export const taskRepo = {
   getAll: async ({ boardId }) => {
     const filtredTasks = [...inMemoryDb.values()].filter(
-      (task) => task.boardId === boardId
+      (task) => task.boardId === boardId,
     );
     return filtredTasks;
   },
@@ -20,7 +20,7 @@ export const taskRepo = {
   update: async ({ boardId, taskId, task }) => {
     const oldBoard = inMemoryDb.get(taskId);
 
-    const newBoard = { ...oldBoard, ...task, boardId  };
+    const newBoard = { ...oldBoard, ...task, boardId };
     inMemoryDb.set(oldBoard?.id, newBoard);
     return newBoard;
   },

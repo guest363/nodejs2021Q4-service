@@ -1,5 +1,5 @@
-import { taskService } from '../../tasks/task.service.js';
-import { usersService } from '../user.service.js';
+import { taskService } from '../../tasks/task.service';
+import { usersService } from '../user.service';
 
 export const deleteById = async (request, reply) => {
   const { userId } = request.params;
@@ -11,7 +11,7 @@ export const deleteById = async (request, reply) => {
     await usersService.delete(userId);
 
     const assignTasks = (await taskService.supportGetAll()).filter(
-      (task) => task.userId === userId
+      (task) => task.userId === userId,
     );
 
     assignTasks.forEach(async (task) => {

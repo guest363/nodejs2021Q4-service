@@ -1,6 +1,6 @@
-import { taskInsertFields } from '../../validators/task-insert-fields.js';
-import { taskSelectFields } from '../../validators/task-select-fields.js';
-import { uuidAsParam } from '../../validators/uuid-as-param.js';
+import { uuidAsParam } from '../../../common/validators/uuid-as-param';
+import { taskInsertFields } from '../../validators/task-insert-fields';
+import { taskSelectFields } from '../../validators/task-select-fields';
 
 export const putSchema = {
   schema: {

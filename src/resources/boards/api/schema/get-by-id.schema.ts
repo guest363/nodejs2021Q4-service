@@ -1,5 +1,5 @@
-import { boardSelectFields } from '../../validators/board-select-fields.js';
-import { uuidAsParam } from '../../validators/uuid-as-param.js';
+import { uuidAsParam } from '../../../common/validators/uuid-as-param';
+import { boardSelectFields } from '../../validators/board-select-fields';
 
 export const getByIdSchema = {
   schema: {

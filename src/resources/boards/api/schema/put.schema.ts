@@ -1,6 +1,6 @@
-import { boardInsertFields } from '../../validators/board-insert-fields.js';
-import { boardSelectFields } from '../../validators/board-select-fields.js';
-import { uuidAsParam } from '../../validators/uuid-as-param.js';
+import { uuidAsParam } from '../../../common/validators/uuid-as-param';
+import { boardInsertFields } from '../../validators/board-insert-fields';
+import { boardSelectFields } from '../../validators/board-select-fields';
 
 export const putSchema = {
   schema: {

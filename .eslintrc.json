@@ -9,15 +9,12 @@
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2021,
-    "project": "./tsconfig.json",
+    "project": "tsconfig.json",
     "ecmaFeatures": {
       "impliedStrict": true
     }
   },
   "parser": "@typescript-eslint/parser",
-  "settings": {
-    "noInlineConfig": true
-  },
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
@@ -25,7 +22,8 @@
     "prettier",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended"
   ],
   "overrides": [
     {
@@ -42,5 +40,12 @@
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off"
   },
-  "plugins": ["@typescript-eslint"]
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["./src"]
+      }
+    }
+  },
+  "plugins": ["@typescript-eslint", "import"]
 }

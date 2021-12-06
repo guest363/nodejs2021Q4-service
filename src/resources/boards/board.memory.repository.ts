@@ -1,4 +1,4 @@
-import { Board } from './board.model.js';
+import { Board } from './board.model';
 
 const inMemoryDb = new Map();
 

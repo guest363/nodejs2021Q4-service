@@ -1,5 +1,5 @@
-import { boardService } from '../../boards/board.service.js';
-import { taskService } from '../task.service.js';
+import { boardService } from '../../boards/board.service';
+import { taskService } from '../task.service';
 
 export const deleteById = async (request, reply) => {
   const { taskId } = request.params;

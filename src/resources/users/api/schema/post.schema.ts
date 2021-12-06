@@ -1,5 +1,5 @@
-import { userInsertFields } from '../../validators/user-insert-fields.js';
-import { userSelectFields } from '../../validators/user-select-fields.js';
+import { userInsertFields } from '../../validators/user-insert-fields';
+import { userSelectFields } from '../../validators/user-select-fields';
 
 export const postSchema = {
   schema: {

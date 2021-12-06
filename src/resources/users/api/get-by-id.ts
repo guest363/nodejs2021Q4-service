@@ -1,4 +1,4 @@
-import { usersService } from '../user.service.js';
+import { usersService } from '../user.service';
 
 export const getById = async (request, reply) => {
   const users = await usersService.getById(request.params.userId);

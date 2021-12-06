@@ -14,6 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "outFile": "./build/server.js",
     "outDir": "./build",
+    "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
     /* Additional Checks */
     "noUnusedLocals": true /* Report errors on unused locals. */,
     "noUnusedParameters": true /* Report errors on unused parameters. */,

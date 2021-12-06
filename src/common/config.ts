@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import { __dirname } from '../variables.js';
+import { __dirname } from '../variables';
 
 dotenv.config({
   path: path.join(__dirname, '.env'),
