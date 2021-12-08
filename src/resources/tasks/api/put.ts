@@ -1,15 +1,15 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { boardService } from '../../boards/board.service';
 import { taskService } from '../task.service';
 
-export const put = async (request, reply) => {
+export const put = async (request: FastifyRequest, reply: FastifyReply) => {
   const isBoardExist = await boardService.getById(request.params.boardId);
   const isTaskExist = await taskService.getById({
     taskId: request.params.taskId,
   });
 
   if (!isBoardExist || !isTaskExist) {
-    reply.code(404);
-    reply.send();
+    await reply.code(404).send();
   } else {
     const updatedTask = await taskService.update({
       boardId: request.params.boardId,
@@ -17,10 +17,8 @@ export const put = async (request, reply) => {
       task: request.body,
     });
     if (!updatedTask) {
-      reply.code(404);
-      reply.send();
+      await reply.code(404).send();
     }
-    reply.code(200);
-    reply.send(updatedTask);
+    await reply.code(200).send(updatedTask);
   }
 };

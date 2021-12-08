@@ -1,10 +1,10 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { boardService } from '../board.service';
 
-export const put = async (request, reply) => {
+export const put = async (request: FastifyRequest, reply: FastifyReply) => {
   const updateBoard = await boardService.update(
     request.params.boardId,
-    request.body,
+    request.body
   );
-  reply.code(200);
-  reply.send(updateBoard);
+  await reply.code(200).send(updateBoard);
 };

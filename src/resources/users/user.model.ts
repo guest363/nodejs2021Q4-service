@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 
 export class User {
-  id: string = v4();
+  id: string;
 
   name: string;
 

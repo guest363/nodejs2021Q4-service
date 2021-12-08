@@ -1,17 +1,31 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 } from 'uuid';
 
 export class Task {
+  id: string;
+
+  title: string;
+
+  description: string;
+
+  order: number;
+
+  userId: string | null;
+
+  boardId: string | null;
+
+  columnId: string | null;
+
   constructor({
-    id = uuidv4(),
+    id = v4(),
     title = 'Default task',
     description = 'Some awesome description',
     order = 0,
     /**
      * assignee entity
      */
-    userId = null,
-    boardId = null,
-    columnId = null,
+    userId = '',
+    boardId = '',
+    columnId = '',
   } = {}) {
     this.id = id;
     this.title = title;
