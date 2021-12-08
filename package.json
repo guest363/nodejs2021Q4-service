@@ -8,6 +8,11 @@
   "type": "module",
   "description": "REST service starter for RS School",
   "main": "src/server.ts",
+  "exports": {
+    ".": {
+      "import": "./stc/servet.ts"
+    }
+  },
   "scripts": {
     "start": "tsc -p tsconfig.json",
     "lint": "eslint --ext .js,.ts --fix src/",
@@ -52,6 +57,7 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.11",
+    "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "chai": "4.3.4",
@@ -60,6 +66,7 @@
     "eslint": "8.2.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "4.0.0",

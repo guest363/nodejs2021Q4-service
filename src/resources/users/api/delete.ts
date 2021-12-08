@@ -1,17 +1,23 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { taskService } from '../../tasks/task.service';
 import { usersService } from '../user.service';
 
-export const deleteById = async (request, reply) => {
-  const { userId } = request.params;
+export const deleteById = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  /**
+   * За счет getByIdSchema мы и уверены что в userId будет корректный UUID
+   */
+  const { userId } = request.params as { userId: string };
   const isUserExist = await usersService.getById(userId);
   if (!isUserExist) {
-    reply.code(404);
-    reply.send();
+    await reply.code(404).send();
   } else {
     await usersService.delete(userId);
 
     const assignTasks = (await taskService.supportGetAll()).filter(
-      (task) => task.userId === userId,
+      (task) => task.userId === userId
     );
 
     assignTasks.forEach(async (task) => {
@@ -22,7 +28,6 @@ export const deleteById = async (request, reply) => {
       });
     });
 
-    reply.code(204);
-    reply.send();
+    await reply.code(204).send();
   }
 };

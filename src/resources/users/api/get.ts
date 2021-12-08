@@ -1,6 +1,6 @@
 import { usersService } from '../user.service';
 
-export const get = async (request, reply) => {
+export const get = async () => {
   const user = await usersService.getAll();
-  reply.send(user);
+  return user;
 };
