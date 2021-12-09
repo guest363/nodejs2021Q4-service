@@ -9,7 +9,7 @@ import { getSchema } from './api/schema/get.schema';
 import { postSchema } from './api/schema/post.schema';
 import { putSchema } from './api/schema/put.schema';
 
-export const userRouter = (fastify: FastifyInstance) => {
+export const userRouter = async (fastify: FastifyInstance) => {
   fastify.get('', getSchema, get);
 
   fastify.post('', postSchema, post);
@@ -19,4 +19,6 @@ export const userRouter = (fastify: FastifyInstance) => {
   fastify.get('/:userId', getByIdSchema, getById);
 
   fastify.delete('/:userId', getByIdSchema, deleteById);
+
+  await Promise.resolve();
 };
