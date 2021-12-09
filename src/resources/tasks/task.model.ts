@@ -1,5 +1,14 @@
 import { v4 } from 'uuid';
 
+type taskConstructorT = {
+  id?: string;
+  title: string;
+  description: string;
+  order: number;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
+};
 export class Task {
   id: string;
 
@@ -26,7 +35,7 @@ export class Task {
     userId = '',
     boardId = '',
     columnId = '',
-  } = {}) {
+  }: taskConstructorT) {
     this.id = id;
     this.title = title;
     this.description = description;

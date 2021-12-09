@@ -1,4 +1,5 @@
-import { uuidAsParam } from '../../../boards/validators/uuid-as-param';
+
+import { uuidAsParam } from '../../../common/validators/uuid-as-param';
 import { taskSelectFields } from '../../validators/task-select-fields';
 
 export const getSchema = {

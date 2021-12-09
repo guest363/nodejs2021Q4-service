@@ -1,4 +1,4 @@
-import { uuidAsParam } from '../../../boards/validators/uuid-as-param';
+import { uuidAsParam } from '../../../common/validators/uuid-as-param';
 import { taskInsertFields } from '../../validators/task-insert-fields';
 import { taskSelectFields } from '../../validators/task-select-fields';
 

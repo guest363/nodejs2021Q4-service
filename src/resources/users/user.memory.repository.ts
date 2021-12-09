@@ -4,23 +4,23 @@ import { User } from './user.model';
 const inMemoryDb = new Map() as Map<string, User>;
 
 export const usersRepo = {
-  getAll: async () =>
+  getAll: async (): Promise<User[]> =>
     new Promise((resolve) => {
       const usersFromDb = [...inMemoryDb.values()];
       resolve(usersFromDb);
     }),
-  create: async (info: userSetT) =>
+  create: async (info: userSetT): Promise<User> =>
     new Promise((resolve) => {
       const user = new User(info);
       inMemoryDb.set(user.id, user);
       resolve(user);
     }),
-  getById: async (id: string) =>
+  getById: async (id: string): Promise<User | void> =>
     new Promise((resolve) => {
       const user = inMemoryDb.get(id);
       resolve(user);
     }),
-  delete: async (id: string) =>
+  delete: async (id: string): Promise<boolean | Error> =>
     new Promise((resolve, reject) => {
       if (!inMemoryDb.has(id)) {
         reject(new Error('deleted user not found'));
@@ -28,7 +28,7 @@ export const usersRepo = {
       inMemoryDb.delete(id);
       resolve(true);
     }),
-  update: async (id: string, user: userSetT) =>
+  update: async (id: string, user: userSetT): Promise<User | Error> =>
     new Promise((resolve, reject) => {
       const oldUser = inMemoryDb.get(id);
       if (!oldUser) {

@@ -3,9 +3,14 @@ import { boardService } from '../../boards/board.service';
 import { taskService } from '../task.service';
 
 export const getById = async (request: FastifyRequest, reply: FastifyReply) => {
-  const isBoardExist = await boardService.getById(request.params.boardId);
+  const { boardId, taskId } = request.params as {
+    boardId: string;
+    taskId: string;
+  };
+
+  const isBoardExist = await boardService.getById(boardId);
   const task = await taskService.getById({
-    taskId: request.params.taskId,
+    taskId,
   });
 
   if (!isBoardExist || !task) {

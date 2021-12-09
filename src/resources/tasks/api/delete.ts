@@ -6,16 +6,19 @@ export const deleteById = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { taskId } = request.params;
+  const { boardId, taskId } = request.params as {
+    boardId: string;
+    taskId: string;
+  };
+
   const isTaskExist = await taskService.getById({ taskId });
-  const isBoardExist = await boardService.getById(request.params.boardId);
+  const isBoardExist = await boardService.getById(boardId);
 
   if (!isTaskExist || !isBoardExist) {
     await reply.code(404).send();
   } else {
     await taskService.delete({
-      boardId: request.params.boardId,
-      taskId: request.params.taskId,
+      taskId,
     });
     await reply.code(204).send();
   }

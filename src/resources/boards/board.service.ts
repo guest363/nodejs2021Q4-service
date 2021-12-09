@@ -1,9 +1,10 @@
 import { boardRepo } from './board.memory.repository';
+import { boardSetT } from './types';
 
 export const boardService = {
   getAll: () => boardRepo.getAll(),
-  create: (info) => boardRepo.create(info),
-  getById: (id) => boardRepo.getById(id),
-  delete: (id) => boardRepo.delete(id),
-  update: (id, board) => boardRepo.update(id, board),
+  create: (info: boardSetT) => boardRepo.create(info),
+  getById: (id: string) => boardRepo.getById(id),
+  delete: (id: string) => boardRepo.delete(id),
+  update: (id: string, board: boardSetT) => boardRepo.update(id, board),
 };
