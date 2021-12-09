@@ -19,9 +19,9 @@ export const deleteById = async (
     (task) => task.userId === userId
   );
 
-  assignTasks.forEach(async (task) => {
+  assignTasks.map(async (task) => {
     await taskService.update({
-      boardId: task.boardId,
+      boardId: task.boardId as string,
       task: { ...task, userId: null },
       taskId: task.id,
     });

@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Task } from '../../tasks/task.model';
 import { taskService } from '../../tasks/task.service';
 import { boardService } from '../board.service';
 
@@ -12,12 +11,12 @@ export const deleteById = async (
   if ((await boardService.delete(boardId)) instanceof Error) {
     await reply.code(404).send();
   }
-  
-  const assignTasks = (
-    (await taskService.getAll({ boardId })) as Task[]
-  ).filter((task) => task.boardId === boardId);
 
-  assignTasks.forEach(async (task) => {
+  const assignTasks = (await taskService.getAll({ boardId })).filter(
+    (task) => task.boardId === boardId
+  );
+
+  assignTasks.map(async (task) => {
     await taskService.delete({ taskId: task.id });
   });
 
