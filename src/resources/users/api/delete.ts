@@ -3,11 +3,13 @@ import { taskService } from '../../tasks/task.service';
 import { usersService } from '../user.service';
 
 /**
- * Endpoint для удаления пользователя по ID
+ * Endpoint для удаления пользователя по ID.
+ * 
+ * При этом для всех задач пользователя userId ставится в null
  *
  * - статус код 204 в случае успеха
  * - в случае его отсутствия возвращает код 404
- * 
+ *
  * @param request - FastifyRequest is an instance of the standard http or http2 request objects. It defaults to http.IncomingMessage, and it also extends the relative request object.
  * @param reply - FastifyReply is an instance of the standard http or http2 reply types. It defaults to http.ServerResponse, and it also extends the relative reply object.
  */

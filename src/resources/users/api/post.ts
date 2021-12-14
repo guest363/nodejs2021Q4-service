@@ -4,7 +4,7 @@ import { usersService } from '../user.service';
 
 /**
  * Endpoint для создания пользователя
- * через reply.send возвращает созданного пользователяи код 201
+ * через reply.send возвращает созданного пользователяи с кодом 201
  * 
  * @param request - FastifyRequest is an instance of the standard http or http2 request objects. It defaults to http.IncomingMessage, and it also extends the relative request object.
  * @param reply - FastifyReply is an instance of the standard http or http2 reply types. It defaults to http.ServerResponse, and it also extends the relative reply object.

@@ -9,6 +9,9 @@ type boardConstructorT = {
     order: number;
   }[];
 };
+/**
+ * Класс Доска
+ */
 export class Board {
   id: string;
 
