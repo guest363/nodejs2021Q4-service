@@ -71,7 +71,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-tsdoc": "^0.2.14",
-    "husky": "^7.0.4",
+    "husky": "^4.3.8",
     "jest": "^27.4.5",
     "lint-staged": "^12.1.2",
     "nodemon": "2.0.15",
