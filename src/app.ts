@@ -6,6 +6,12 @@ import { taskRouter } from './resources/tasks/task.router';
 import { userRouter } from './resources/users/user.router';
 import { __dirname } from './variables';
 
+/**
+ *
+ * Инициализирует Fastify, роуты и swaggerUI
+ *
+ * @returns Промис резолвищейся в инстанс fastify сервера
+ */
 export default async function buildApp() {
   const app = Fastify({ logger: true });
 

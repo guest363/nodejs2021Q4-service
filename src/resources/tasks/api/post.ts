@@ -3,6 +3,15 @@ import { boardService } from '../../boards/board.service';
 import { Task } from '../task.model';
 import { taskService } from '../task.service';
 
+/**
+ * Endpoint для создания задачи
+ * через reply.send возвращает
+ * - в случае успеха обновленную задачу и код 201
+ * - в случае ошибки код 404
+ *
+ * @param request - FastifyRequest is an instance of the standard http or http2 request objects. It defaults to http.IncomingMessage, and it also extends the relative request object.
+ * @param reply - FastifyReply is an instance of the standard http or http2 reply types. It defaults to http.ServerResponse, and it also extends the relative reply object.
+ */
 export const post = async (request: FastifyRequest, reply: FastifyReply) => {
   const { boardId } = request.params as { boardId: string };
   const isBoardExist = await boardService.getById(boardId);

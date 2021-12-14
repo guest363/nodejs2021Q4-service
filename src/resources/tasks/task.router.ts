@@ -9,6 +9,11 @@ import { getSchema } from './api/schema/get.schema';
 import { postSchema } from './api/schema/post.schema';
 import { putSchema } from './api/schema/put.schema';
 
+/**
+ * Инициализирует endpoints для задач
+ *
+ * @param fastify - инстанс Fastify
+ */
 export const taskRouter = async (fastify: FastifyInstance) => {
   fastify.get('/:boardId/tasks', getSchema, get);
 
@@ -19,6 +24,6 @@ export const taskRouter = async (fastify: FastifyInstance) => {
   fastify.get('/:boardId/tasks/:taskId', getByIdSchema, getById);
 
   fastify.delete('/:boardId/tasks/:taskId', getByIdSchema, deleteById);
-  
+
   await Promise.resolve();
 };

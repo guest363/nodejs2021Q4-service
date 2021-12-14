@@ -9,6 +9,9 @@ type taskConstructorT = {
   boardId: string | null;
   columnId: string | null;
 };
+/**
+ * Класс Задача
+ */
 export class Task {
   id: string;
 

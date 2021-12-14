@@ -6,6 +6,10 @@ type userConstructorT = {
   login: string;
   password: string;
 };
+
+/**
+ * Класс Пользователь
+ */
 export class User {
   id: string;
 

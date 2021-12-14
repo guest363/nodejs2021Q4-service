@@ -9,6 +9,11 @@ import { getSchema } from './api/schema/get.schema';
 import { postSchema } from './api/schema/post.schema';
 import { putSchema } from './api/schema/put.schema';
 
+/**
+ * Инициализирует пользовательские endpoints
+ * 
+ * @param fastify - инстанс Fastify
+ */
 export const userRouter = async (fastify: FastifyInstance) => {
   fastify.get('', getSchema, get);
 

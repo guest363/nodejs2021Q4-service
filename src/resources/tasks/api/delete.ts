@@ -2,6 +2,15 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { boardService } from '../../boards/board.service';
 import { taskService } from '../task.service';
 
+/**
+ * Endpoint для удаления задачи по ID
+ * через reply.send возвращает
+ * - в случае успеха задачу и код 204
+ * - в случае ошибки код 404
+ *
+ * @param request - FastifyRequest is an instance of the standard http or http2 request objects. It defaults to http.IncomingMessage, and it also extends the relative request object.
+ * @param reply - FastifyReply is an instance of the standard http or http2 reply types. It defaults to http.ServerResponse, and it also extends the relative reply object.
+ */
 export const deleteById = async (
   request: FastifyRequest,
   reply: FastifyReply

@@ -1,6 +1,9 @@
 import buildApp from './app';
 import { config } from './common/config';
 
+/**
+ * Анонимная функция инициализирующая работу сервера
+ */
 (async () => {
   const fastify = await buildApp();
   try {
