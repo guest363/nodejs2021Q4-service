@@ -39,7 +39,8 @@
     "import/extensions": 0,
     "linebreak-style": "off",
     "no-underscore-dangle": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "tsdoc/syntax": "warn"
   },
   "settings": {
     "import/parsers": {
@@ -57,5 +58,5 @@
       }
     }
   },
-  "plugins": ["@typescript-eslint", "import"]
+  "plugins": ["@typescript-eslint", "import", "eslint-plugin-tsdoc"]
 }
