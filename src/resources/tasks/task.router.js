@@ -8,14 +8,14 @@ import { getSchema } from './api/schema/get.schema.js';
 import { postSchema } from './api/schema/post.schema.js';
 import { putSchema } from './api/schema/put.schema.js';
 
-export const userRouter = async (fastify) => {
-  fastify.get('', getSchema, get);
+export const taskRouter = async (fastify) => {
+  fastify.get('/:boardId/tasks', getSchema, get);
 
-  fastify.post('', postSchema, post);
+  fastify.post('/:boardId/tasks', postSchema, post);
 
-  fastify.put('/:userId', putSchema, put);
+  fastify.put('/:boardId/tasks/:taskId', putSchema, put);
 
-  fastify.get('/:userId', getByIdSchema, getById);
+  fastify.get('/:boardId/tasks/:taskId', getByIdSchema, getById);
 
-  fastify.delete('/:userId', getByIdSchema, deleteById);
+  fastify.delete('/:boardId/tasks/:taskId', getByIdSchema, deleteById);
 };

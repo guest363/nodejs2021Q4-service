@@ -1,24 +1,48 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
+import Fastify from 'fastify';
+import swaggerUI from 'fastify-swagger';
+import path from 'path';
+import YAML from 'yamljs';
+import { boardRouter } from './resources/boards/board.router.js';
+import { taskRouter } from './resources/tasks/task.router.js';
+import { userRouter } from './resources/users/user.router.js';
+import { __dirname } from './variables.js';
 
-const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+export default async function buildApp() {
+  const app = Fastify({ logger: true });
 
-app.use(express.json());
+  const swaggerDocument = YAML.load(path.join(__dirname, './doc/api.yaml'));
 
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+  app.register(swaggerUI, {
+    routePrefix: '/doc',
+    swagger: swaggerDocument,
+    uiConfig: {
+      docExpansion: 'full',
+      deepLinking: false,
+    },
+    uiHooks: {
+      onRequest(request, reply, next) {
+        next();
+      },
+      preHandler(request, reply, next) {
+        next();
+      },
+    },
+    staticCSP: true,
+    transformStaticCSP: (header) => header,
+    exposeRoute: true,
+  });
 
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
-  }
-  next();
-});
+  app.route({
+    method: 'GET',
+    url: '/',
+    handler: (request, reply) => {
+      reply.send('Service is running!');
+    },
+  });
 
-app.use('/users', userRouter);
+  app.register(userRouter, { prefix: '/users' });
+  app.register(boardRouter, { prefix: '/boards' });
+  app.register(taskRouter, { prefix: '/boards' });
 
-module.exports = app;
+  return app;
+}
