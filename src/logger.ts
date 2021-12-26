@@ -1,6 +1,7 @@
-import { FastifyInstance, FastifyLoggerOptions } from 'fastify';
-import fs from 'fs';
-import path from 'path';
+import { FastifyInstance } from 'fastify';
+import pino from 'pino';
+
+
 
 enum logLevels {
   error = 0, // (ошибка)
@@ -13,17 +14,21 @@ enum logLevels {
 /**
  * Куда писать какие логи
  */
-const streams = [
+const targets = [
   /** Все остальное пишем в info.log */
   {
-    level: logLevels[logLevels.trace],
-    stream: fs.createWriteStream(path.join(process.cwd(), './log/info.log')),
+    level: logLevels[logLevels.trace] as pino.LevelWithSilent,
+    options: { destination: './log/info.log', mkdir: true },
+    target: 'pino/file',
   },
   {
-    level: logLevels[logLevels.error],
-    stream: fs.createWriteStream(path.join(process.cwd(), './log/error.log')),
+    level: logLevels[logLevels.error] as pino.LevelWithSilent,
+    options: { destination: './log/error.log', mkdir: true },
+    target: 'pino/file',
   },
 ];
+
+const multyStreamsConfig = pino.transport({ targets: targets });
 
 /**
  * Класс отвечающий за логирование в приложении
@@ -53,29 +58,29 @@ export class Logger {
   }
 
   /**
-   * Возвращает конфиг для логера
+   * Возвращает логер
    */
-  public getConfig() {
-    return {
-      prettyPrint: true,
-      level: logLevels[this.logLevel],
-      serializers: {
-        res(reply) {
-          return {
-            statusCode: reply.statusCode,
-          };
-        },
-        req(request) {
-          return {
-            method: request.method,
-            url: request.url,
-            path: request.routerPath,
-            parameters: request.params,
-          };
+  public getLogger() {
+    return pino(
+      {
+        level: logLevels[this.logLevel],
+        serializers: {
+          res(reply) {
+            return {
+              statusCode: reply.statusCode,
+            };
+          },
+          req(request) {
+            return {
+              method: request.method,
+              url: request.url,
+              path: request.routerPath,
+              parameters: request.params,
+            };
+          },
         },
       },
-      dedupe: true,
-      multistream: streams,
-    } as FastifyLoggerOptions;
+      multyStreamsConfig
+    );
   }
 }

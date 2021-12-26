@@ -18,7 +18,7 @@ export default async function buildApp() {
   const logger = new Logger(config.LOG_LEVEL);
 
   const app = Fastify({
-    logger: logger.getConfig(),
+    logger: logger.getLogger(),
   });
 
   logger.initHooks(app);
