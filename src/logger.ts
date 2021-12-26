@@ -1,5 +1,5 @@
-import { FastifyInstance } from 'fastify';
-import pino from 'pino';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import pino, { DestinationStream } from 'pino';
 
 enum logLevels {
   error = 0, // (ошибка)
@@ -43,12 +43,12 @@ export class Logger {
       {
         level: logLevels[this.logLevel],
         serializers: {
-          res(reply) {
+          res(reply: FastifyReply) {
             return {
               statusCode: reply.statusCode,
             };
           },
-          req(request) {
+          req(request:FastifyRequest) {
             return {
               method: request.method,
               url: request.url,
@@ -58,14 +58,14 @@ export class Logger {
           },
         },
       },
-      pino.transport({ targets })
+      pino.transport({ targets }) as DestinationStream
     );
   }
 
   /**
    * Инициализирует хук для логирование тела запросса
    *
-   * @param app инстанс fastify
+   * @param app - инстанс fastify
    */
   public initHooks(app: FastifyInstance) {
     if (this.logLevel >= logLevels.info) {
@@ -88,7 +88,7 @@ export class Logger {
   /**
    * Логирует ошибку
    *
-   * @param error инстанс ошибки или сообщение об ошибки
+   * @param error - инстанс ошибки или сообщение об ошибки
    */
   public error(error: Error | string) {
     if (error instanceof Error) {
