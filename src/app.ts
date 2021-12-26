@@ -1,7 +1,6 @@
 import Fastify from 'fastify';
 import swaggerUI from 'fastify-swagger';
 import path from 'path';
-import { config } from './common/config';
 import { Logger } from './logger';
 import { boardRouter } from './resources/boards/board.router';
 import { taskRouter } from './resources/tasks/task.router';
@@ -14,9 +13,7 @@ import { __dirname } from './variables';
  *
  * @returns Промис резолвищейся в инстанс fastify сервера
  */
-export default async function buildApp() {
-  const logger = new Logger(config.LOG_LEVEL);
-
+export default async function buildApp(logger: Logger) {
   const app = Fastify({
     logger: logger.getLogger(),
   });

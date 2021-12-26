@@ -1,8 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import pino from 'pino';
 
-
-
 enum logLevels {
   error = 0, // (ошибка)
   warn = 1, // (предупреждение)
@@ -28,40 +26,20 @@ const targets = [
   },
 ];
 
-const multyStreamsConfig = pino.transport({ targets: targets });
-
 /**
  * Класс отвечающий за логирование в приложении
  */
 export class Logger {
   logLevel = 0;
 
+  pino;
+
   /**
    * @param logLevel - Уровни логировани от 0 до 4
    */
   constructor(logLevel: logLevels) {
     this.logLevel = logLevel;
-  }
-
-  /**
-   * Инициализирует хук для логирование тела запросса
-   */
-  public initHooks(app: FastifyInstance) {
-    if (this.logLevel >= logLevels.info) {
-      app.addHook('preHandler', (req, _reply, done) => {
-        if (req.body) {
-          req.log.info({ body: req.body }, 'parsed body');
-        }
-        done();
-      });
-    }
-  }
-
-  /**
-   * Возвращает логер
-   */
-  public getLogger() {
-    return pino(
+    this.pino = pino(
       {
         level: logLevels[this.logLevel],
         serializers: {
@@ -80,7 +58,43 @@ export class Logger {
           },
         },
       },
-      multyStreamsConfig
+      pino.transport({ targets })
     );
+  }
+
+  /**
+   * Инициализирует хук для логирование тела запросса
+   *
+   * @param app инстанс fastify
+   */
+  public initHooks(app: FastifyInstance) {
+    if (this.logLevel >= logLevels.info) {
+      app.addHook('preHandler', (req, _reply, done) => {
+        if (req.body) {
+          req.log.info({ body: req.body }, 'parsed body');
+        }
+        done();
+      });
+    }
+  }
+
+  /**
+   * Возвращает логер
+   */
+  public getLogger() {
+    return this.pino;
+  }
+
+  /**
+   * Логирует ошибку
+   *
+   * @param error инстанс ошибки или сообщение об ошибки
+   */
+  public error(error: Error | string) {
+    if (error instanceof Error) {
+      this.pino.error(error);
+    } else {
+      this.pino.error(`Unhandled error - ${error}`);
+    }
   }
 }
