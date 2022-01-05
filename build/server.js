@@ -21,7 +21,6 @@ const logger = new logger_1.Logger(config_1.config.LOG_LEVEL);
     logger.error(`Can't buildApp ${error?.message}`);
     process.exit(1);
 });
-Promise.reject(Error('Oops!'));
 process.on('uncaughtException', (error) => {
     logger.error(`uncaughtException - ${error?.message}`);
     process.exit(1);
