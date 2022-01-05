@@ -9,24 +9,54 @@
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2021,
+    "project": "tsconfig.json",
     "ecmaFeatures": {
       "impliedStrict": true
     }
   },
-  "settings": {
-    "noInlineConfig": true
-  },
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
-    "plugin:node/recommended",
     "airbnb-base",
-    "prettier"
+    "prettier",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts"], // Your TypeScript files extension
+      "parserOptions": {
+        "project": ["./tsconfig.json"] // Specify it only for TypeScript files
+      }
+    }
   ],
   "rules": {
-    "import/extensions": "off",
+    "import/extensions": 0,
     "linebreak-style": "off",
-    "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
-    "import/prefer-default-export": "off"
-  }
+    "import/prefer-default-export": "off",
+    "tsdoc/syntax": "warn"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./"
+      },
+      "node": {
+        "paths": ["./src"],
+        "resolvePaths": ["node_modules/@types"],
+        "extensions": [".js", ".json", ".ts"]
+      }
+    }
+  },
+  "plugins": ["@typescript-eslint", "import", "eslint-plugin-tsdoc"]
 }
