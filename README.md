@@ -31,10 +31,16 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 ### In Docker
 
+Build image
+
+```sh
+docker-compose build
+```
+
 In 1-st terminal
 
 ```sh
-npm run docker:build
+npm run docker:watch
 ```
 
 In second terminal
