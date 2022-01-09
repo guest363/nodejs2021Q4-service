@@ -1,5 +1,7 @@
 FROM node:16-alpine3.14
 
+EXPOSE 4000
+
 WORKDIR /app
 
 COPY . .

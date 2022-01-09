@@ -19,8 +19,16 @@ npm install
 
 ## Running application
 
+In 1-st terminal
+
+```sh
+npm run dev:watch
 ```
-npm start
+
+In second terminal
+
+```sh
+npm run docker
 ```
 
 After starting the app on port (4000 as default) you can open

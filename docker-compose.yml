@@ -1,14 +1,22 @@
-version: "3.9"
+version: '3.9'
 services:
   db:
     build:
       context: ./db
     volumes:
       - ./db:/db
+    restart: on-failure:5
   server:
     build:
       context: ./
     volumes:
-      - ./log:/log
+      - ./log:/app/log
+      - ./build:/app/build
     depends_on:
       - db
+    restart: on-failure:5
+    ports:
+      - '${PORT}:${PORT}'
+networks:
+  default:
+    name: rs-net
