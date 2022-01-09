@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  db:
+    build:
+      context: ./db
+    volumes:
+      - ./db:/db
+  server:
+    build:
+      context: ./
+    volumes:
+      - ./log:/log
+    depends_on:
+      - db

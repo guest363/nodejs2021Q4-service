@@ -21,6 +21,7 @@ export default {
   resolve: {
     extensions: ['*', '.js', '.json', '.ts'],
   },
+  target: 'node',
   externalsPresets: { node: true },
   externals: [nodeExternals()],
   optimization: {
@@ -49,7 +50,6 @@ export default {
       {
         test: /\.js$/,
         use: ['babel-loader'],
-        exclude: /node_modules/,
       },
     ],
   },
