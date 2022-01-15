@@ -1,3 +1,4 @@
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { v4 } from 'uuid';
 
 type userConstructorT = {
@@ -10,13 +11,18 @@ type userConstructorT = {
 /**
  * Класс Пользователь
  */
+@Entity()
 export class User {
+  @PrimaryColumn()
   id: string;
 
+  @Column()
   name: string;
 
+  @Column()
   login: string;
 
+  @Column()
   password: string;
 
   constructor({

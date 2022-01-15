@@ -6,6 +6,12 @@ services:
     volumes:
       - ./db:/db
     restart: on-failure:5
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    environment:
+      POSTGRES_USER: 'test'
+      POSTGRES_PASSWORD: 'test'
+      POSTGRES_DB: 'test'
   server:
     build:
       context: ./
