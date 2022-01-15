@@ -1,7 +1,6 @@
+import { connection } from './../../variables';
 import { userSetT } from './types';
 import { User } from './user.model';
-
-const inMemoryDb = new Map() as Map<string, User>;
 
 export const usersRepo = {
   /**
@@ -10,22 +9,26 @@ export const usersRepo = {
    * @returns список всех пользователей
    */
   getAll: async (): Promise<User[]> =>
-    new Promise((resolve) => {
-      const usersFromDb = [...inMemoryDb.values()];
-      resolve(usersFromDb);
-    }),
+    await connection.getRepository(User).createQueryBuilder('user').getMany(),
   /**
    * Создает и возвращает нового пользователя
    *
    * @param info - данные для создания нового пользователя
    * @returns созданный пользователь
    */
-  create: async (info: userSetT): Promise<User> =>
-    new Promise((resolve) => {
-      const user = new User(info);
-      inMemoryDb.set(user.id, user);
-      resolve(user);
-    }),
+  create: async (info: userSetT): Promise<User> => {
+    const user = new User(info);
+    await connection
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .insert()
+      .into(User)
+      .values(user)
+      .execute();
+
+    return user;
+  },
+
   /**
    * Возвращает пользователя по ID
    *
@@ -33,24 +36,27 @@ export const usersRepo = {
    * @returns полученный по ID пользователь
    */
   getById: async (id: string): Promise<User | void> =>
-    new Promise((resolve) => {
-      const user = inMemoryDb.get(id);
-      resolve(user);
-    }),
+    await connection
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id: id })
+      .getOne(),
   /**
    * Удаляет пользователя по ID
    *
    * @param id- ID удаляемого пользователся
    * @returns true в случае успеха удаления и ошибка в случае неудачи
    */
-  delete: async (id: string): Promise<boolean | Error> =>
-    new Promise((resolve, reject) => {
-      if (!inMemoryDb.has(id)) {
-        reject(new Error('deleted user not found'));
-      }
-      inMemoryDb.delete(id);
-      resolve(true);
-    }),
+  delete: async (id: string): Promise<boolean | Error> => {
+    await connection
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .delete()
+      .from(User)
+      .where('user.id = :id', { id: id })
+      .execute();
+    return true;
+  },
   /**
    * Обновляет пользователя по ID
    *
@@ -58,14 +64,15 @@ export const usersRepo = {
    * @param user - новые данные пользователя
    * @returns обновленный пользователь
    */
-  update: async (id: string, user: userSetT): Promise<User | Error> =>
-    new Promise((resolve, reject) => {
-      const oldUser = inMemoryDb.get(id);
-      if (!oldUser) {
-        reject(new Error('updated user not found'));
-      }
-      const newUser = { ...(oldUser as User), ...user };
-      inMemoryDb.set(id, newUser);
-      resolve(newUser);
-    }),
+  update: async (id: string, user: userSetT): Promise<User | Error> => {
+    await connection
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .update(User)
+      .set(user)
+      .where('id = :id', { id: id })
+      .execute();
+
+    return { id: id, ...user };
+  },
 };

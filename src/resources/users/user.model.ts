@@ -16,13 +16,13 @@ export class User {
   @PrimaryColumn()
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 300, nullable: false })
   name: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 300, nullable: false })
   login: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 300, nullable: false })
   password: string;
 
   constructor({

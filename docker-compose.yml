@@ -9,9 +9,9 @@ services:
     ports:
       - '${DB_PORT}:${DB_PORT}'
     environment:
-      POSTGRES_USER: 'test'
-      POSTGRES_PASSWORD: 'test'
-      POSTGRES_DB: 'test'
+      POSTGRES_USER: '${PG_USER}'
+      POSTGRES_PASSWORD: '${PG_PASSWORD}'
+      POSTGRES_DB: '${PG_DATABASE}'
   server:
     build:
       context: ./

@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import swaggerUI from 'fastify-swagger';
 import { existsSync } from 'fs';
 import path from 'path';
+import 'reflect-metadata';
 import { Logger } from './logger';
 import { boardRouter } from './resources/boards/board.router';
 import { taskRouter } from './resources/tasks/task.router';
