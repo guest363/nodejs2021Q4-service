@@ -1,4 +1,4 @@
-import { connection } from './../../variables';
+import { connection } from '../../variables';
 import { userSetT } from './types';
 import { User } from './user.model';
 

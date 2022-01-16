@@ -17,13 +17,13 @@ export class User {
   id: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })
-  name: string;
+  name!: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })
-  login: string;
+  login!: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })
-  password: string;
+  password!: string;
 
   constructor({
     id = v4(),

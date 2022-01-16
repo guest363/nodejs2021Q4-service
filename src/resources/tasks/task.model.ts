@@ -1,3 +1,4 @@
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { v4 } from 'uuid';
 
 type taskConstructorT = {
@@ -12,19 +13,27 @@ type taskConstructorT = {
 /**
  * Класс Задача
  */
+@Entity()
 export class Task {
+  @PrimaryColumn()
   id: string;
 
-  title: string;
+  @Column({ type: 'varchar', length: 300, nullable: false })
+  title!: string;
 
-  description: string;
+  @Column({ type: 'varchar', length: 600, nullable: false })
+  description!: string;
 
-  order: number;
+  @Column()
+  order!: number;
 
+  @Column({ type: 'varchar', length: 128, nullable: true })
   userId: string | null;
 
+  @Column({ type: 'varchar', length: 128, nullable: true })
   boardId: string | null;
 
+  @Column({ type: 'varchar', length: 128, nullable: true })
   columnId: string | null;
 
   constructor({

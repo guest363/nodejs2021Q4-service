@@ -1,5 +1,5 @@
 import { userSetT } from './types';
-import { usersRepo } from './user.memory.repository';
+import { usersRepo } from './user.repository';
 
 /**
  * Сервис для работы с пользователями

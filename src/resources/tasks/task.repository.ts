@@ -1,3 +1,4 @@
+import { connection } from '../../variables';
 import { Task } from './task.model';
 import {
   taskApiCreateT,
@@ -7,7 +8,6 @@ import {
   taskApiUpdateT,
 } from './types';
 
-const inMemoryDb = new Map() as Map<string, Task>;
 
 export const taskRepo = {
   /**
@@ -17,21 +17,18 @@ export const taskRepo = {
    * @returns список всех задач
    */
   getAll: async (props: taskApiGetAllT): Promise<Task[]> =>
-    new Promise((resolve) => {
-      const filtredTasks = [...inMemoryDb.values()].filter(
-        (task) => task.boardId === props.boardId
-      );
-      resolve(filtredTasks);
-    }),
+    await connection
+      .getRepository(Task)
+      .createQueryBuilder('task')
+      .where('task.boardId = :id', { id: props.boardId })
+      .getMany(),
   /**
    * Служеюная функция для получения всех задачь со всех бордов
    *
    * @returns возвращает все задачи со всех бордов
    */
   supportGetAll: async (): Promise<Task[]> =>
-    new Promise((resolve) => {
-      resolve([...inMemoryDb.values()]);
-    }),
+    await connection.getRepository(Task).createQueryBuilder('task').getMany(),
 
   /**
    * Создает и возвращает новую задачу
@@ -41,12 +38,18 @@ export const taskRepo = {
    * - info.boardId id к какой доске привязать
    * @returns созданная задача
    */
-  create: async ({ task, boardId }: taskApiCreateT): Promise<Task> =>
-    new Promise((resolve) => {
-      const createdTask = new Task({ ...task, boardId });
-      inMemoryDb.set(createdTask.id, createdTask);
-      resolve(createdTask);
-    }),
+  create: async ({ task, boardId }: taskApiCreateT): Promise<Task> => {
+    const newTask = new Task({ ...task, boardId });
+    await connection
+      .getRepository(Task)
+      .createQueryBuilder('task')
+      .insert()
+      .into(Task)
+      .values(newTask)
+      .execute();
+
+    return newTask;
+  },
   /**
    * Возвращает задачу по ID
    *
@@ -55,9 +58,11 @@ export const taskRepo = {
    * @returns полученная по ID задача
    */
   getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> =>
-    new Promise((resolve) => {
-      resolve(inMemoryDb.get(taskId));
-    }),
+    await connection
+      .getRepository(Task)
+      .createQueryBuilder('task')
+      .where('task.id = :id', { id: taskId })
+      .getOne(),
   /**
    * Удаляет задачу по ИД
    *
@@ -66,14 +71,16 @@ export const taskRepo = {
    * - true в случае успеха
    * - Error в случае ошибки
    */
-  delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> =>
-    new Promise((resolve, reject) => {
-      if (!inMemoryDb.has(taskId)) {
-        reject(new Error('deleted task not found'));
-      }
-      inMemoryDb.delete(taskId);
-      resolve(true);
-    }),
+  delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> => {
+    await connection
+      .getRepository(Task)
+      .createQueryBuilder('task')
+      .delete()
+      .from(Task)
+      .where('task.id = :id', { id: taskId })
+      .execute();
+    return true;
+  },
   /**
    * Обновляет задачу
    *
@@ -88,14 +95,24 @@ export const taskRepo = {
     boardId,
     taskId,
     task,
-  }: taskApiUpdateT): Promise<Task | Error> =>
-    new Promise((resolve, reject) => {
-      const oldTask = inMemoryDb.get(taskId);
-      if (!oldTask) {
-        reject(new Error('updated task not found'));
-      }
-      const updateTask = { ...(oldTask as Task), ...task, boardId };
-      inMemoryDb.set((oldTask as Task).id, updateTask);
-      resolve(updateTask);
-    }),
+  }: taskApiUpdateT): Promise<Task | Error> => {
+    await connection
+      .getRepository(Task)
+      .createQueryBuilder('task')
+      .update(Task)
+      .set({ ...task, boardId })
+      .where('id = :id', { id: taskId })
+      .execute();
+
+    const newTask = await connection
+      .getRepository(Task)
+      .createQueryBuilder('task')
+      .where('task.id = :id', { id: taskId })
+      .getOne();
+
+    if (newTask === void 0) {
+      throw new Error('Task not update');
+    }
+    return newTask;
+  },
 };

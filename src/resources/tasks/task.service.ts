@@ -1,4 +1,4 @@
-import { taskRepo } from './task.memory.repository';
+import { taskRepo } from './task.repository';
 import {
   taskApiCreateT,
   taskApiDeleteT,
