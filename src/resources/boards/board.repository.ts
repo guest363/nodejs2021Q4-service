@@ -2,8 +2,6 @@ import { connection } from '../../variables';
 import { Board } from './board.model';
 import { boardSetT } from './types';
 
-const inMemoryDb = new Map() as Map<string, Board>;
-
 export const boardRepo = {
   /**
    * Возвращает список всех досок

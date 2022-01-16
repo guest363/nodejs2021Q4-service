@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import typeorm from 'typeorm';
 import { v4 } from 'uuid';
 
+const { Column, Entity, PrimaryColumn } = typeorm;
 type taskConstructorT = {
   id?: string;
   title: string;

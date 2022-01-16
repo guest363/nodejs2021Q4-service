@@ -1,7 +1,8 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
+import typeorm from 'typeorm';
 import { v4 } from 'uuid';
 import { Columns } from './columns.model';
 
+const { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } = typeorm;
 type boardConstructorT = {
   id?: string;
   title: string;
@@ -23,7 +24,7 @@ export class Board {
   @Column({ type: 'varchar', length: 300, nullable: false })
   title: string;
 
-  @ManyToMany((type) => Columns, (Columns) => Columns.id)
+  @ManyToMany(() => Columns, (Columns) => Columns.id)
   @JoinTable()
   columns: Columns[] = []; // see = [] initialization here
 

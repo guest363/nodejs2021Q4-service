@@ -22,7 +22,7 @@
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "pretypeorm": "node --loader ts-node/esm ./src/common/create-typeorm-config.ts",
-    "typeorm:migration:generate": "typeorm migration:create -n task8",
+    "typeorm:migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:create -n task8",
     "typeorm:migration:run": "typeorm migration:run"
   },
   "keywords": [
