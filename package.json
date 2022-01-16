@@ -20,7 +20,10 @@
     "docker:run": "docker network create --driver=bridge rs-net & docker-compose up -d ",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
+    "pretypeorm": "node --loader ts-node/esm ./src/common/create-typeorm-config.ts",
+    "typeorm:migration:generate": "typeorm migration:create -n task8",
+    "typeorm:migration:run": "typeorm migration:run"
   },
   "keywords": [
     "rs",
@@ -61,6 +64,7 @@
     "pino": "^7.6.1",
     "pino-pretty": "^7.3.0",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.4.0",
     "typeorm": "^0.2.41",
     "typescript": "^4.6.0-dev.20220109",
     "uuid": "8.3.2"
@@ -87,6 +91,7 @@
     "lint-staged": "^12.1.2",
     "prettier": "^2.5.1",
     "supertest": "6.1.6",
-    "ts-loader": "^9.2.6"
+    "ts-loader": "^9.2.6",
+    "tslib": "^2.3.1"
   }
 }
