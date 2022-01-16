@@ -70,7 +70,7 @@ export const usersRepo = {
       .createQueryBuilder('user')
       .update(User)
       .set(user)
-      .where('id = :id', { id: id })
+      .where('board.id = :id', { id: id })
       .execute();
 
     return { id: id, ...user };

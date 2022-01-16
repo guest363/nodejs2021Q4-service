@@ -8,7 +8,6 @@ import {
   taskApiUpdateT,
 } from './types';
 
-
 export const taskRepo = {
   /**
    * Возвращает список всех задач на доске
@@ -101,7 +100,7 @@ export const taskRepo = {
       .createQueryBuilder('task')
       .update(Task)
       .set({ ...task, boardId })
-      .where('id = :id', { id: taskId })
+      .where('task.id = :id', { id: taskId })
       .execute();
 
     const newTask = await connection
