@@ -19,13 +19,35 @@ npm install
 
 ## Running application
 
-```
-npm start
+### Local
+
+```sh
+npm run start
 ```
 
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
+
+### In Docker
+
+Build image
+
+```sh
+docker-compose build
+```
+
+In 1-st terminal
+
+```sh
+npm run docker:watch
+```
+
+In second terminal
+
+```sh
+npm run docker:run
+```
 
 ## Testing
 

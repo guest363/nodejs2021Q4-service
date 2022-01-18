@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import swaggerUI from 'fastify-swagger';
+import { existsSync } from 'fs';
 import path from 'path';
 import { Logger } from './logger';
 import { boardRouter } from './resources/boards/board.router';
@@ -19,19 +20,21 @@ export default async function buildApp(logger: Logger) {
   });
 
   logger.initHooks(app);
-
-  await app.register(swaggerUI, {
-    mode: 'static',
-    exposeRoute: true,
-    routePrefix: '/doc',
-    specification: {
-      path: path.join(__dirname, './doc/api.yaml'),
-      postProcessor(swaggerObject) {
-        return swaggerObject;
+  logger.error(path.join(__dirname, './doc/api.yaml'));
+  if (existsSync('./doc/api.yaml')) {
+    await app.register(swaggerUI, {
+      mode: 'static',
+      exposeRoute: true,
+      routePrefix: '/doc',
+      specification: {
+        path: path.join(__dirname, './doc/api.yaml'),
+        postProcessor(swaggerObject) {
+          return swaggerObject;
+        },
+        baseDir: '/doc',
       },
-      baseDir: '/doc',
-    },
-  });
+    });
+  }
 
   app.route({
     method: 'GET',

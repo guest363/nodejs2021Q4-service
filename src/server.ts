@@ -12,7 +12,7 @@ const logger = new Logger(config.LOG_LEVEL);
 (async () => {
   fastify = await buildApp(logger);
   try {
-    fastify.listen(config.PORT, () =>
+    fastify.listen(config.PORT, '0.0.0.0', () =>
       fastify.log.info(
         `App is running on http://localhost:${String(config.PORT)}`
       )
