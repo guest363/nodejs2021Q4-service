@@ -10,7 +10,7 @@ export const boardRepo = {
    * @returns список всех досок
    */
   getAll: async (): Promise<Board[]> =>
-    await getRepository(Board).createQueryBuilder('board').getMany(),
+    await getRepository(BoardEntity).createQueryBuilder('board').getMany(),
   /**
    * Создает и возвращает новую доску
    *

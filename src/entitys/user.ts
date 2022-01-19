@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { TaskEntity } from './task';
 
 /**
  * Entity Пользователь
@@ -16,4 +17,9 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'varchar', length: 300, nullable: false })
   password!: string;
+
+  @OneToMany(() => TaskEntity, (task) => task.user, {
+    eager: false,
+  })
+  tasks!: TaskEntity[];
 }

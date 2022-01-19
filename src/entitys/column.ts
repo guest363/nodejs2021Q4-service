@@ -1,4 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
+import { BoardEntity } from './board';
+import { TaskEntity } from './task';
 
 /**
  * Entity Columns
@@ -14,4 +23,15 @@ export class ColumnsEntity extends BaseEntity {
 
   @Column()
   order!: number;
+
+  @OneToMany(() => TaskEntity, (task) => task.column, {
+    eager: true,
+    cascade: true,
+  })
+  tasks!: TaskEntity[];
+
+  @ManyToOne(() => BoardEntity, (board) => board.columns, {
+    onDelete: 'CASCADE',
+  })
+  board!: BoardEntity;
 }

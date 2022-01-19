@@ -1,12 +1,14 @@
 import {
+  AfterLoad,
   BaseEntity,
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
+  OneToMany,
   PrimaryColumn,
 } from 'typeorm';
 import { ColumnsEntity } from './column';
+import { TaskEntity } from './task';
 
 /**
  * Entity Доска
@@ -20,7 +22,22 @@ export class BoardEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 300, nullable: false })
   title!: string;
 
-  @ManyToMany(() => ColumnsEntity, (ColumnsEntity) => ColumnsEntity.id)
+  @OneToMany(() => ColumnsEntity, (column) => column.board, {
+    eager: true,
+    cascade: ['insert', 'update', 'remove', 'soft-remove', 'recover'],
+  })
   @JoinTable()
-  columns: ColumnsEntity[] = []; // see = [] initialization here
+  columns!: ColumnsEntity[];
+
+  @OneToMany(() => TaskEntity, (task) => task.board, {
+    eager: false,
+  })
+  tasks!: TaskEntity[];
+
+  @AfterLoad()
+  sortItems(): void {
+    if (this.columns.length > 0) {
+      this.columns.sort((a, b) => a.order - b.order);
+    }
+  }
 }
