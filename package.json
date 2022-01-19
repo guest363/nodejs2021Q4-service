@@ -14,7 +14,7 @@
     }
   },
   "scripts": {
-    "dev": "ts-node ./src/server.ts",
+    "dev": "nodemon ./src/server.ts",
     "build": "tsc -p tsconfig.json",
     "docker:watch": "tsc -p tsconfig.json -w",
     "start": "nodemon --exitcrash --experimental-specifier-resolution=node --watch build ./build/server.js",

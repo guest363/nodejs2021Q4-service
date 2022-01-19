@@ -53,7 +53,7 @@ export const boardRepo = {
     const updatedBoard = await getRepository(BoardEntity).findOne(id);
 
     if (updatedBoard) {
-      await await getRepository(BoardEntity).save({
+      await getRepository(BoardEntity).save({
         ...updatedBoard,
         ...board,
       });

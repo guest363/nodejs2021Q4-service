@@ -1,10 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { taskService } from '../../tasks/task.service';
 import { usersService } from '../user.service';
 
 /**
  * Endpoint для удаления пользователя по ID.
- * 
+ *
  * При этом для всех задач пользователя userId ставится в null
  *
  * - статус код 204 в случае успеха
@@ -25,18 +24,6 @@ export const deleteById = async (
   if ((await usersService.delete(userId)) instanceof Error) {
     await reply.code(404).send();
   }
-
-  const assignTasks = (await taskService.supportGetAll()).filter(
-    (task) => task.userId === userId
-  );
-
-  assignTasks.map(async (task) => {
-    await taskService.update({
-      boardId: task.boardId as string,
-      task: { ...task, userId: null },
-      taskId: task.id,
-    });
-  });
 
   await reply.code(204).send();
 };

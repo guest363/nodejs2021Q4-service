@@ -17,7 +17,7 @@ export const taskRepo = {
    * @returns список всех задач
    */
   getAll: async (props: taskApiGetAllT): Promise<Task[]> =>
-    await getRepository(TaskEntity).find({ id: props.boardId }),
+    await getRepository(TaskEntity).find({ boardId: props.boardId }),
   /**
    * Служеюная функция для получения всех задачь со всех бордов
    *
@@ -35,7 +35,7 @@ export const taskRepo = {
    * @returns созданная задача
    */
   create: async ({ task, boardId }: taskApiCreateT): Promise<Task> => {
-    const newTask = new Task({ ...task, boardId });
+    const newTask = getRepository(TaskEntity).create({ ...task, boardId });
     await getRepository(TaskEntity).save(newTask);
 
     return newTask;
@@ -85,8 +85,9 @@ export const taskRepo = {
       throw new Error('Task not update');
     }
 
-    const newTask = { ...savedTask, task };
-    await getRepository(Task).save(newTask);
+    const newTask = { ...savedTask, ...task };
+
+    await getRepository(TaskEntity).save(newTask);
 
     return newTask;
   },
