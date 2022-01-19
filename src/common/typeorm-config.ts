@@ -1,13 +1,13 @@
 import { ConnectionOptions } from 'typeorm';
-import { BoardEntity } from "../entitys/board";
-import { ColumnsEntity } from "../entitys/column";
-import { TaskEntity } from "../entitys/task";
-import { UserEntity } from "../entitys/user";
+import { BoardEntity } from '../entitys/board';
+import { ColumnsEntity } from '../entitys/column';
+import { TaskEntity } from '../entitys/task';
+import { UserEntity } from '../entitys/user';
 import { config } from './config';
 
 export default {
   type: 'postgres',
-  host: 'localhost',
+  host: config.POSTGRES_HOST,
   port: Number(config.PGPORT),
   username: config.POSTGRES_USER || 'test',
   password: config.POSTGRES_PASSWORD || 'test',

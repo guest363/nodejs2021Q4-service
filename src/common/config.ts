@@ -16,4 +16,5 @@ export const config = {
   POSTGRES_USER: process.env.POSTGRES_USER || 'test',
   POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'test',
   PGPORT: Number(process.env.PGPORT),
+  POSTGRES_HOST: String(process.env.POSTGRES_HOST),
 };

@@ -43,13 +43,13 @@ Build image
 docker-compose build
 ```
 
-In 1-st terminal
+In 1-st terminal. It's compline ts files
 
 ```sh
 npm run docker:watch
 ```
 
-In second terminal
+In second terminal. It's create network, volume and up image
 
 ```sh
 npm run docker:run
