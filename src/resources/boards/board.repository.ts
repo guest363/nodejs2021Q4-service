@@ -9,8 +9,7 @@ export const boardRepo = {
    *
    * @returns список всех досок
    */
-  getAll: async (): Promise<Board[]> =>
-    await getRepository(BoardEntity).createQueryBuilder('board').getMany(),
+  getAll: async (): Promise<Board[]> => await getRepository(BoardEntity).find(),
   /**
    * Создает и возвращает новую доску
    *
@@ -19,12 +18,8 @@ export const boardRepo = {
    */
   create: async (info: boardSetT): Promise<Board> => {
     const board = new Board(info);
-    await getRepository(BoardEntity)
-      .createQueryBuilder('board')
-      .insert()
-      .into(Board)
-      .values(board)
-      .execute();
+
+    await getRepository(BoardEntity).save(board);
 
     return board;
   },
@@ -35,10 +30,7 @@ export const boardRepo = {
    * @returns полученная по ID доска
    */
   getById: async (id: string): Promise<Board | void> =>
-    await getRepository(BoardEntity)
-      .createQueryBuilder('board')
-      .where('board.id = :id', { id: id })
-      .getOne(),
+    await getRepository(BoardEntity).findOne(id),
   /**
    * Удаляет доску по ID
    *
@@ -46,13 +38,9 @@ export const boardRepo = {
    * @returns true в случае успеха удаления и ошибка в случае неудачи
    */
   delete: async (id: string): Promise<boolean | Error> => {
-    await getRepository(BoardEntity)
-      .createQueryBuilder('board')
-      .delete()
-      .from(Board)
-      .where('board.id = :id', { id: id })
-      .execute();
-    return true;
+    const result = await getRepository(BoardEntity).delete(id);
+
+    return result.affected === 0 ? false : true;
   },
   /**
    * Обновляет доску по ID
@@ -62,12 +50,14 @@ export const boardRepo = {
    * @returns обновленная доска
    */
   update: async (id: string, board: boardSetT): Promise<Board | Error> => {
-    await getRepository(BoardEntity)
-      .createQueryBuilder('board')
-      .update(Board)
-      .set(board)
-      .where('board.id = :id', { id: id })
-      .execute();
+    const updatedBoard = await getRepository(BoardEntity).findOne(id);
+
+    if (updatedBoard) {
+      await await getRepository(BoardEntity).save({
+        ...updatedBoard,
+        ...board,
+      });
+    }
 
     return { id: id, ...board };
   },

@@ -9,8 +9,7 @@ export const usersRepo = {
    *
    * @returns список всех пользователей
    */
-  getAll: async (): Promise<User[]> =>
-    await getRepository(UserEntity).createQueryBuilder('user').getMany(),
+  getAll: async (): Promise<User[]> => await getRepository(UserEntity).find(),
   /**
    * Создает и возвращает нового пользователя
    *
@@ -19,12 +18,7 @@ export const usersRepo = {
    */
   create: async (info: userSetT): Promise<User> => {
     const user = new User(info);
-    await getRepository(UserEntity)
-      .createQueryBuilder('user')
-      .insert()
-      .into(User)
-      .values(user)
-      .execute();
+    await getRepository(UserEntity).save(user);
 
     return user;
   },
@@ -36,10 +30,7 @@ export const usersRepo = {
    * @returns полученный по ID пользователь
    */
   getById: async (id: string): Promise<User | void> =>
-    await getRepository(UserEntity)
-      .createQueryBuilder('user')
-      .where('user.id = :id', { id: id })
-      .getOne(),
+    await getRepository(UserEntity).findOne(id),
   /**
    * Удаляет пользователя по ID
    *
@@ -47,13 +38,9 @@ export const usersRepo = {
    * @returns true в случае успеха удаления и ошибка в случае неудачи
    */
   delete: async (id: string): Promise<boolean | Error> => {
-    await getRepository(UserEntity)
-      .createQueryBuilder('user')
-      .delete()
-      .from(User)
-      .where('user.id = :id', { id: id })
-      .execute();
-    return true;
+    const result = await getRepository(UserEntity).delete(id);
+
+    return result.affected === 0 ? false : true;
   },
   /**
    * Обновляет пользователя по ID
@@ -63,12 +50,7 @@ export const usersRepo = {
    * @returns обновленный пользователь
    */
   update: async (id: string, user: userSetT): Promise<User | Error> => {
-    await getRepository(UserEntity)
-      .createQueryBuilder('user')
-      .update(User)
-      .set(user)
-      .where('board.id = :id', { id: id })
-      .execute();
+    await getRepository(UserEntity).update(id, user);
 
     return { id: id, ...user };
   },

@@ -17,17 +17,14 @@ export const taskRepo = {
    * @returns список всех задач
    */
   getAll: async (props: taskApiGetAllT): Promise<Task[]> =>
-    await getRepository(TaskEntity)
-      .createQueryBuilder('task')
-      .where('task.boardId = :id', { id: props.boardId })
-      .getMany(),
+    await getRepository(TaskEntity).find({ id: props.boardId }),
   /**
    * Служеюная функция для получения всех задачь со всех бордов
    *
    * @returns возвращает все задачи со всех бордов
    */
   supportGetAll: async (): Promise<Task[]> =>
-    await getRepository(TaskEntity).createQueryBuilder('task').getMany(),
+    await getRepository(TaskEntity).find(),
 
   /**
    * Создает и возвращает новую задачу
@@ -39,12 +36,7 @@ export const taskRepo = {
    */
   create: async ({ task, boardId }: taskApiCreateT): Promise<Task> => {
     const newTask = new Task({ ...task, boardId });
-    await getRepository(TaskEntity)
-      .createQueryBuilder('task')
-      .insert()
-      .into(Task)
-      .values(newTask)
-      .execute();
+    await getRepository(TaskEntity).save(newTask);
 
     return newTask;
   },
@@ -56,10 +48,7 @@ export const taskRepo = {
    * @returns полученная по ID задача
    */
   getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> =>
-    await getRepository(TaskEntity)
-      .createQueryBuilder('task')
-      .where('task.id = :id', { id: taskId })
-      .getOne(),
+    await getRepository(TaskEntity).findOne(taskId),
   /**
    * Удаляет задачу по ИД
    *
@@ -69,13 +58,9 @@ export const taskRepo = {
    * - Error в случае ошибки
    */
   delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> => {
-    await getRepository(TaskEntity)
-      .createQueryBuilder('task')
-      .delete()
-      .from(Task)
-      .where('task.id = :id', { id: taskId })
-      .execute();
-    return true;
+    const result = await getRepository(TaskEntity).delete(taskId);
+
+    return result.affected === 0 ? false : true;
   },
   /**
    * Обновляет задачу
@@ -92,21 +77,17 @@ export const taskRepo = {
     taskId,
     task,
   }: taskApiUpdateT): Promise<Task | Error> => {
-    await getRepository(TaskEntity)
-      .createQueryBuilder('task')
-      .update(Task)
-      .set({ ...task, boardId })
-      .where('task.id = :id', { id: taskId })
-      .execute();
+    const savedTask = await getRepository(TaskEntity).findOne({
+      where: { id: taskId, boardId },
+    });
 
-    const newTask = await getRepository(Task)
-      .createQueryBuilder('task')
-      .where('task.id = :id', { id: taskId })
-      .getOne();
-
-    if (newTask === void 0) {
+    if (savedTask === void 0) {
       throw new Error('Task not update');
     }
+
+    const newTask = { ...savedTask, task };
+    await getRepository(Task).save(newTask);
+
     return newTask;
   },
 };
