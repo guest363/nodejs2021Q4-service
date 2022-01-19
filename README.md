@@ -19,6 +19,12 @@ npm install
 
 ## Running application
 
+## Create migration
+
+```bash
+npm run typeorm migration:generate -- -n task8 -p --dr --ch
+```
+
 ### Local
 
 ```sh

@@ -15,6 +15,7 @@
   },
   "scripts": {
     "dev": "tsc -p tsconfig.json && node --experimental-specifier-resolution=node ./build/server.js",
+    "build": "tsc -p tsconfig.json",
     "docker:watch": "tsc -p tsconfig.json -w",
     "start": "nodemon --exitcrash --experimental-specifier-resolution=node --watch build ./build/server.js",
     "docker:run": "docker network create --driver=bridge rs-net & docker volume create --name data -d local & docker-compose up -d ",
@@ -22,8 +23,7 @@
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "pretypeorm": "node --loader ts-node/esm ./src/common/create-typeorm-config.ts",
-    "typeorm": "ts-node ./node_modules/typeorm/cli -f ./ormconfig.json",
-    "typeorm:migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:create -n task8",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "typeorm:migration:run": "typeorm migration:run"
   },
   "keywords": [

@@ -17,8 +17,7 @@ export const getTypeormConfig = (): ConnectionOptions => {
     username: process.env.POSTGRES_USER || 'test',
     password: process.env.POSTGRES_PASSWORD || 'test',
     database: process.env.POSTGRES_DB || 'test',
-    entities: ['./src/entity/*{.ts,.js}'],
-    synchronize: true,
+    entities: ['build/entity/*{.ts,.js}'],
     migrationsTableName: 'migration',
     migrations: ['src/migration/*.ts'],
     cli: {
