@@ -8,7 +8,7 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/guest363/nodejs2021Q4-service.git ./
 ```
 
 ## Installing NPM modules
@@ -18,12 +18,6 @@ npm install
 ```
 
 ## Running application
-
-## Create migration
-
-```bash
-npm run typeorm migration:generate -- -n task8
-```
 
 ### Local
 
@@ -62,7 +56,7 @@ After application running open new terminal and enter:
 To run all tests without authorization
 
 ```
-npm test
+npm run test
 ```
 
 To run only one of all test suites (users, boards or tasks)
@@ -91,6 +85,12 @@ If you're using VSCode, you can get a better developer experience from integrati
 
 ```
 npm run lint
+```
+
+## Create migration
+
+```bash
+npm run typeorm migration:generate -- -n task8
 ```
 
 ### Debugging in VSCode
