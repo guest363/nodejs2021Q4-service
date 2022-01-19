@@ -9,9 +9,9 @@ export const __dirname = path.resolve(path.dirname(''));
 export const connection = await createConnection({
   type: 'postgres',
   host: 'localhost',
-  port: config.DB_PORT,
-  username: config.PG_USER,
-  password: config.PG_PASSWORD,
-  database: config.PG_DATABASE,
+  port: config.PGPORT,
+  username: config.PGUSER,
+  password: config.PGPASSWORD,
+  database: config.PGDATABASE,
   entities: [User],
 });

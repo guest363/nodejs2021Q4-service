@@ -1,14 +1,21 @@
+import dotenv from 'dotenv';
 import fs from 'fs';
+import path from 'path';
+
+const __dirname = path.resolve(path.dirname(''));
+
+dotenv.config({
+  path: path.join(__dirname, '.env'),
+});
 
 const getTypeormConfig = () => {
   return {
     type: 'postgres',
-
     host: 'localhost',
-    port: Number(process.env.DB_PORT) || 5432,
-    username: process.env.PG_USER || 'test',
-    password: process.env.PG_PASSWORD || 'test',
-    database: process.env.PG_PASSWORD || 'test',
+    port: process.env.PGPORT,
+    username: process.env.PGUSER || 'test',
+    password: process.env.PGPASSWORD || 'test',
+    database: process.env.PGPASSWORD || 'test',
 
     entities: ['**/*.model{.ts,.js}'],
 

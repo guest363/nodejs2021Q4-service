@@ -14,8 +14,8 @@ export const config = {
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
   LOG_LEVEL: parseInt(String(process.env.LOG_LEVEL), 10) || 4,
-  PG_DATABASE: process.env.PG_DATABASE || 'test',
-  PG_USER: process.env.PG_USER || 'test',
-  PG_PASSWORD: process.env.PG_PASSWORD || 'test',
-  DB_PORT: Number(process.env.DB_PORT) || 5432,
+  PGDATABASE: process.env.PGDATABASE || 'test',
+  PGUSER: process.env.PGUSER || 'test',
+  PGPASSWORD: process.env.PGPASSWORD || 'test',
+  PGPORT: Number(process.env.PGPORT),
 };
