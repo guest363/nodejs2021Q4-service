@@ -1,6 +1,9 @@
-import { connection } from '../../variables';
+import typeorm from 'typeorm';
+import { BoardEntity } from './../../entitys/board';
 import { Board } from './board.model';
 import { boardSetT } from './types';
+
+const { getRepository } = typeorm;
 
 export const boardRepo = {
   /**
@@ -9,7 +12,7 @@ export const boardRepo = {
    * @returns список всех досок
    */
   getAll: async (): Promise<Board[]> =>
-    await connection.getRepository(Board).createQueryBuilder('board').getMany(),
+    await getRepository(Board).createQueryBuilder('board').getMany(),
   /**
    * Создает и возвращает новую доску
    *
@@ -18,8 +21,7 @@ export const boardRepo = {
    */
   create: async (info: boardSetT): Promise<Board> => {
     const board = new Board(info);
-    await connection
-      .getRepository(Board)
+    await getRepository(BoardEntity)
       .createQueryBuilder('board')
       .insert()
       .into(Board)
@@ -35,8 +37,7 @@ export const boardRepo = {
    * @returns полученная по ID доска
    */
   getById: async (id: string): Promise<Board | void> =>
-    await connection
-      .getRepository(Board)
+    await getRepository(BoardEntity)
       .createQueryBuilder('board')
       .where('board.id = :id', { id: id })
       .getOne(),
@@ -47,8 +48,7 @@ export const boardRepo = {
    * @returns true в случае успеха удаления и ошибка в случае неудачи
    */
   delete: async (id: string): Promise<boolean | Error> => {
-    await connection
-      .getRepository(Board)
+    await getRepository(BoardEntity)
       .createQueryBuilder('board')
       .delete()
       .from(Board)
@@ -64,8 +64,7 @@ export const boardRepo = {
    * @returns обновленная доска
    */
   update: async (id: string, board: boardSetT): Promise<Board | Error> => {
-    await connection
-      .getRepository(Board)
+    await getRepository(BoardEntity)
       .createQueryBuilder('board')
       .update(Board)
       .set(board)

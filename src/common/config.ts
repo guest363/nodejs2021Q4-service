@@ -14,8 +14,8 @@ export const config = {
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   AUTH_MODE: process.env.AUTH_MODE === 'true',
   LOG_LEVEL: parseInt(String(process.env.LOG_LEVEL), 10) || 4,
-  PGDATABASE: process.env.PGDATABASE || 'test',
-  PGUSER: process.env.PGUSER || 'test',
-  PGPASSWORD: process.env.PGPASSWORD || 'test',
+  POSTGRES_DB: process.env.POSTGRES_DB || 'test',
+  POSTGRES_USER: process.env.POSTGRES_USER || 'test',
+  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'test',
   PGPORT: Number(process.env.PGPORT),
 };

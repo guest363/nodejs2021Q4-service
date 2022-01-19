@@ -20,11 +20,11 @@ export class TaskEntity extends BaseEntity {
   order!: number;
 
   @Column({ type: 'varchar', length: 128, nullable: true })
-  userId?: string | null;
+  userId!: string | null;
 
   @Column({ type: 'varchar', length: 128, nullable: true })
-  boardId?: string | null;
+  boardId!: string | null;
 
   @Column({ type: 'varchar', length: 128, nullable: true })
-  columnId?: string | null;
+  columnId!: string | null;
 }

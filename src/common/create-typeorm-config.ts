@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+import { ConnectionOptions } from 'typeorm';
 
 const __dirname = path.resolve(path.dirname(''));
 
@@ -8,15 +9,15 @@ dotenv.config({
   path: path.join(__dirname, '.env'),
 });
 
-const getTypeormConfig = () => {
+export const getTypeormConfig = (): ConnectionOptions => {
   return {
     type: 'postgres',
     host: 'localhost',
-    port: process.env.PGPORT,
-    username: process.env.PGUSER || 'test',
-    password: process.env.PGPASSWORD || 'test',
-    database: process.env.PGPASSWORD || 'test',
-    entities: ['build/entity/*.js'],
+    port: Number(process.env.PGPORT),
+    username: process.env.POSTGRES_USER || 'test',
+    password: process.env.POSTGRES_PASSWORD || 'test',
+    database: process.env.POSTGRES_DB || 'test',
+    entities: ['./src/entity/*{.ts,.js}'],
     synchronize: true,
     migrationsTableName: 'migration',
     migrations: ['src/migration/*.ts'],

@@ -1,6 +1,9 @@
-import { connection } from '../../variables';
+import typeorm from 'typeorm';
+import { UserEntity } from './../../entitys/user';
 import { userSetT } from './types';
 import { User } from './user.model';
+
+const { getRepository } = typeorm;
 
 export const usersRepo = {
   /**
@@ -9,7 +12,7 @@ export const usersRepo = {
    * @returns список всех пользователей
    */
   getAll: async (): Promise<User[]> =>
-    await connection.getRepository(User).createQueryBuilder('user').getMany(),
+    await getRepository(UserEntity).createQueryBuilder('user').getMany(),
   /**
    * Создает и возвращает нового пользователя
    *
@@ -18,8 +21,7 @@ export const usersRepo = {
    */
   create: async (info: userSetT): Promise<User> => {
     const user = new User(info);
-    await connection
-      .getRepository(User)
+    await getRepository(UserEntity)
       .createQueryBuilder('user')
       .insert()
       .into(User)
@@ -36,8 +38,7 @@ export const usersRepo = {
    * @returns полученный по ID пользователь
    */
   getById: async (id: string): Promise<User | void> =>
-    await connection
-      .getRepository(User)
+    await getRepository(UserEntity)
       .createQueryBuilder('user')
       .where('user.id = :id', { id: id })
       .getOne(),
@@ -48,8 +49,7 @@ export const usersRepo = {
    * @returns true в случае успеха удаления и ошибка в случае неудачи
    */
   delete: async (id: string): Promise<boolean | Error> => {
-    await connection
-      .getRepository(User)
+    await getRepository(UserEntity)
       .createQueryBuilder('user')
       .delete()
       .from(User)
@@ -65,8 +65,7 @@ export const usersRepo = {
    * @returns обновленный пользователь
    */
   update: async (id: string, user: userSetT): Promise<User | Error> => {
-    await connection
-      .getRepository(User)
+    await getRepository(UserEntity)
       .createQueryBuilder('user')
       .update(User)
       .set(user)

@@ -1,4 +1,5 @@
-import { connection } from '../../variables';
+import typeorm from 'typeorm';
+import { TaskEntity } from './../../entitys/task';
 import { Task } from './task.model';
 import {
   taskApiCreateT,
@@ -8,6 +9,8 @@ import {
   taskApiUpdateT,
 } from './types';
 
+const { getRepository } = typeorm;
+
 export const taskRepo = {
   /**
    * Возвращает список всех задач на доске
@@ -16,8 +19,7 @@ export const taskRepo = {
    * @returns список всех задач
    */
   getAll: async (props: taskApiGetAllT): Promise<Task[]> =>
-    await connection
-      .getRepository(Task)
+    await getRepository(TaskEntity)
       .createQueryBuilder('task')
       .where('task.boardId = :id', { id: props.boardId })
       .getMany(),
@@ -27,7 +29,7 @@ export const taskRepo = {
    * @returns возвращает все задачи со всех бордов
    */
   supportGetAll: async (): Promise<Task[]> =>
-    await connection.getRepository(Task).createQueryBuilder('task').getMany(),
+    await getRepository(TaskEntity).createQueryBuilder('task').getMany(),
 
   /**
    * Создает и возвращает новую задачу
@@ -39,8 +41,7 @@ export const taskRepo = {
    */
   create: async ({ task, boardId }: taskApiCreateT): Promise<Task> => {
     const newTask = new Task({ ...task, boardId });
-    await connection
-      .getRepository(Task)
+    await getRepository(TaskEntity)
       .createQueryBuilder('task')
       .insert()
       .into(Task)
@@ -57,8 +58,7 @@ export const taskRepo = {
    * @returns полученная по ID задача
    */
   getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> =>
-    await connection
-      .getRepository(Task)
+    await getRepository(TaskEntity)
       .createQueryBuilder('task')
       .where('task.id = :id', { id: taskId })
       .getOne(),
@@ -71,8 +71,7 @@ export const taskRepo = {
    * - Error в случае ошибки
    */
   delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> => {
-    await connection
-      .getRepository(Task)
+    await getRepository(TaskEntity)
       .createQueryBuilder('task')
       .delete()
       .from(Task)
@@ -95,16 +94,14 @@ export const taskRepo = {
     taskId,
     task,
   }: taskApiUpdateT): Promise<Task | Error> => {
-    await connection
-      .getRepository(Task)
+    await getRepository(TaskEntity)
       .createQueryBuilder('task')
       .update(Task)
       .set({ ...task, boardId })
       .where('task.id = :id', { id: taskId })
       .execute();
 
-    const newTask = await connection
-      .getRepository(Task)
+    const newTask = await getRepository(Task)
       .createQueryBuilder('task')
       .where('task.id = :id', { id: taskId })
       .getOne();

@@ -1,12 +1,12 @@
 {
   "type": "postgres",
   "host": "localhost",
-  "port": "5000",
+  "port": 5000,
   "username": "test",
   "password": "test",
   "database": "test",
+  "entities": ["./src/entity/*{.ts,.js}"],
   "synchronize": true,
-  "entities": ["build/entity/*.js"],
   "migrationsTableName": "migration",
   "migrations": ["src/migration/*.ts"],
   "cli": {
