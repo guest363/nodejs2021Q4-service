@@ -1,9 +1,7 @@
-import typeorm from 'typeorm';
+import { getRepository } from 'typeorm';
 import { UserEntity } from './../../entitys/user';
 import { userSetT } from './types';
 import { User } from './user.model';
-
-const { getRepository } = typeorm;
 
 export const usersRepo = {
   /**

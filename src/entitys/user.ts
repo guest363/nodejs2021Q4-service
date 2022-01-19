@@ -1,5 +1,4 @@
-import typeorm from 'typeorm';
-const { Column, Entity, PrimaryColumn, BaseEntity } = typeorm;
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 /**
  * Entity Пользователь

@@ -1,0 +1,5 @@
+{"level":50,"time":1642591589367,"pid":19160,"hostname":"DESKTOP-QJ0QQ7C","msg":"Unhandled error - Can't buildApp connect ECONNREFUSED 127.0.0.1:5432"}
+{"level":50,"time":1642591632255,"pid":22372,"hostname":"DESKTOP-QJ0QQ7C","msg":"Unhandled error - C:\\Users\\Oleg\\Documents\\Code\\RS_MY_FROM_TASK_4\\doc\\api.yaml"}
+{"level":40,"time":1642591632318,"pid":22372,"hostname":"DESKTOP-QJ0QQ7C","msg":"\"root\" path \"/doc\" must exist"}
+{"level":30,"time":1642591632362,"pid":22372,"hostname":"DESKTOP-QJ0QQ7C","msg":"Server listening at http://0.0.0.0:4000"}
+{"level":30,"time":1642591632362,"pid":22372,"hostname":"DESKTOP-QJ0QQ7C","msg":"App is running on http://localhost:4000"}

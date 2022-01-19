@@ -1,8 +1,12 @@
-import typeorm from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryColumn,
+} from 'typeorm';
 import { ColumnsEntity } from './column';
-
-const { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, BaseEntity } =
-  typeorm;
 
 /**
  * Entity Доска

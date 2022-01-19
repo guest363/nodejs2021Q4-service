@@ -1,10 +1,8 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import path from 'path';
 
-const __dirname = path.resolve(path.dirname(''));
-
 dotenv.config({
-  path: path.join(__dirname, '.env'),
+  path: path.join(__dirname, '../../.env'),
 });
 
 export const config = {

@@ -1,4 +1,4 @@
-import typeorm from 'typeorm';
+import { getRepository } from 'typeorm';
 import { TaskEntity } from './../../entitys/task';
 import { Task } from './task.model';
 import {
@@ -8,8 +8,6 @@ import {
   taskApiGetByIdT,
   taskApiUpdateT,
 } from './types';
-
-const { getRepository } = typeorm;
 
 export const taskRepo = {
   /**

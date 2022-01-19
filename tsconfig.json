@@ -2,7 +2,7 @@
   "display": "Node 16",
   "compilerOptions": {
     "lib": ["es2021"],
-    "module": "ESNext",
+    "module": "commonjs",
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
     "target": "es2021",
     "strict": true,
