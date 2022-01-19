@@ -1,7 +1,5 @@
-import typeorm from 'typeorm';
 import { v4 } from 'uuid';
 
-const { Column, Entity, PrimaryColumn } = typeorm;
 type columnsConstructorT = {
   id: string;
   title: string;
@@ -11,15 +9,9 @@ type columnsConstructorT = {
  * Класс Columns
  */
 
-@Entity()
 export class Columns {
-  @PrimaryColumn()
-  id: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: false })
-  title: string;
-
-  @Column()
+  id!: string;
+  title!: string;
   order!: number;
 
   constructor({

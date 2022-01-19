@@ -1,8 +1,6 @@
-import typeorm from 'typeorm';
 import { v4 } from 'uuid';
 import { Columns } from './columns.model';
 
-const { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } = typeorm;
 type boardConstructorT = {
   id?: string;
   title: string;
@@ -16,16 +14,9 @@ type boardConstructorT = {
  * Класс Доска
  */
 
-@Entity()
 export class Board {
-  @PrimaryColumn()
-  id: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: false })
-  title: string;
-
-  @ManyToMany(() => Columns, (Columns) => Columns.id)
-  @JoinTable()
+  id!: string;
+  title!: string;
   columns: Columns[] = []; // see = [] initialization here
 
   constructor({

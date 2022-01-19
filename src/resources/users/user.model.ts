@@ -1,6 +1,4 @@
-import typeorm from 'typeorm';
 import { v4 } from 'uuid';
-const { Column, Entity, PrimaryColumn } = typeorm;
 
 type userConstructorT = {
   id?: string;
@@ -12,18 +10,10 @@ type userConstructorT = {
 /**
  * Класс Пользователь
  */
-@Entity()
 export class User {
-  @PrimaryColumn()
-  id: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: false })
+  id!: string;
   name!: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: false })
   login!: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: false })
   password!: string;
 
   constructor({

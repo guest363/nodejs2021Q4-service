@@ -16,13 +16,10 @@ const getTypeormConfig = () => {
     username: process.env.PGUSER || 'test',
     password: process.env.PGPASSWORD || 'test',
     database: process.env.PGPASSWORD || 'test',
-
-    entities: ['**/*.model{.ts,.js}'],
-
+    entities: ['build/entity/*.js'],
+    synchronize: true,
     migrationsTableName: 'migration',
-
     migrations: ['src/migration/*.ts'],
-
     cli: {
       migrationsDir: 'src/migration',
     },
