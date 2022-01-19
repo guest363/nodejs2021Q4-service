@@ -5,7 +5,7 @@ import {
   Entity,
   JoinTable,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ColumnsEntity } from './column';
 import { TaskEntity } from './task';
@@ -16,7 +16,7 @@ import { TaskEntity } from './task';
 
 @Entity()
 export class BoardEntity extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })

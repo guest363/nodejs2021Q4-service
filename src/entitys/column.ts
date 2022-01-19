@@ -4,7 +4,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BoardEntity } from './board';
 import { TaskEntity } from './task';
@@ -15,7 +15,7 @@ import { TaskEntity } from './task';
 
 @Entity()
 export class ColumnsEntity extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })

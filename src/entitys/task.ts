@@ -1,4 +1,10 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BoardEntity } from './board';
 import { ColumnsEntity } from './column';
 import { UserEntity } from './user';
@@ -8,7 +14,7 @@ import { UserEntity } from './user';
  */
 @Entity()
 export class TaskEntity extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })
@@ -26,7 +32,7 @@ export class TaskEntity extends BaseEntity {
   })
   user!: UserEntity;
 
-  @Column({ type: 'varchar', length: 128, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   userId!: string | null;
 
   @ManyToOne(() => BoardEntity, (board) => board.tasks, {
@@ -35,7 +41,7 @@ export class TaskEntity extends BaseEntity {
   })
   board!: BoardEntity;
 
-  @Column({ type: 'varchar', length: 128, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   boardId!: string | null;
 
   @ManyToOne(() => ColumnsEntity, (column) => column.tasks, {
@@ -43,6 +49,6 @@ export class TaskEntity extends BaseEntity {
   })
   column!: ColumnsEntity;
 
-  @Column({ type: 'varchar', length: 128, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   columnId!: string | null;
 }
