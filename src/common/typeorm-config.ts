@@ -14,9 +14,9 @@ export default {
   database: config.POSTGRES_DB || 'test',
   entities: [UserEntity, ColumnsEntity, TaskEntity, BoardEntity],
   migrationsTableName: 'migration',
-  migrations: ['src/migration/*.ts'],
+  migrations: ['build/migration/*.js'],
   cli: {
-    migrationsDir: 'src/migration',
+    migrationsDir: 'build/migration',
   },
   synchronize: false,
   migrationsRun: true,
