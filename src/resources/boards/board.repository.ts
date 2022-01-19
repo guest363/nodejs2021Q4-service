@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { BoardEntity } from './../../entitys/board';
+import { BoardEntity } from '../../entitys/board';
 import { Board } from './board.model';
 import { boardSetT } from './types';
 
@@ -9,7 +9,10 @@ export const boardRepo = {
    *
    * @returns список всех досок
    */
-  getAll: async (): Promise<Board[]> => await getRepository(BoardEntity).find(),
+  getAll: async (): Promise<Board[]> => {
+    const result = await getRepository(BoardEntity).find();
+    return result;
+  },
   /**
    * Создает и возвращает новую доску
    *
@@ -29,8 +32,10 @@ export const boardRepo = {
    * @param id - ID запрашиваемой доски
    * @returns полученная по ID доска
    */
-  getById: async (id: string): Promise<Board | void> =>
-    await getRepository(BoardEntity).findOne(id),
+  getById: async (id: string): Promise<Board | void> => {
+    const result = await getRepository(BoardEntity).findOne(id);
+    return result;
+  },
   /**
    * Удаляет доску по ID
    *
@@ -40,7 +45,7 @@ export const boardRepo = {
   delete: async (id: string): Promise<boolean | Error> => {
     const result = await getRepository(BoardEntity).delete(id);
 
-    return result.affected === 0 ? false : true;
+    return result.affected !== 0;
   },
   /**
    * Обновляет доску по ID
@@ -59,6 +64,6 @@ export const boardRepo = {
       });
     }
 
-    return { id: id, ...board };
+    return { id, ...board };
   },
 };

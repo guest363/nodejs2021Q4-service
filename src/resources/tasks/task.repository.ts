@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { TaskEntity } from './../../entitys/task';
+import { TaskEntity } from '../../entitys/task';
 import { Task } from './task.model';
 import {
   taskApiCreateT,
@@ -16,15 +16,21 @@ export const taskRepo = {
    * @param info - info.boardId ИД с какой доски собирать задачи
    * @returns список всех задач
    */
-  getAll: async (props: taskApiGetAllT): Promise<Task[]> =>
-    await getRepository(TaskEntity).find({ boardId: props.boardId }),
+  getAll: async (props: taskApiGetAllT): Promise<Task[]> => {
+    const result = await getRepository(TaskEntity).find({
+      boardId: props.boardId,
+    });
+    return result;
+  },
   /**
    * Служеюная функция для получения всех задачь со всех бордов
    *
    * @returns возвращает все задачи со всех бордов
    */
-  supportGetAll: async (): Promise<Task[]> =>
-    await getRepository(TaskEntity).find(),
+  supportGetAll: async (): Promise<Task[]> => {
+    const result = await getRepository(TaskEntity).find();
+    return result;
+  },
 
   /**
    * Создает и возвращает новую задачу
@@ -47,8 +53,10 @@ export const taskRepo = {
    * - info.id запрашиваемой задачи
    * @returns полученная по ID задача
    */
-  getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> =>
-    await getRepository(TaskEntity).findOne(taskId),
+  getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> => {
+    const result = await getRepository(TaskEntity).findOne(taskId);
+    return result;
+  },
   /**
    * Удаляет задачу по ИД
    *
@@ -60,7 +68,7 @@ export const taskRepo = {
   delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> => {
     const result = await getRepository(TaskEntity).delete(taskId);
 
-    return result.affected === 0 ? false : true;
+    return result.affected !== 0;
   },
   /**
    * Обновляет задачу
@@ -81,7 +89,7 @@ export const taskRepo = {
       where: { id: taskId, boardId },
     });
 
-    if (savedTask === void 0) {
+    if (!savedTask) {
       throw new Error('Task not update');
     }
 

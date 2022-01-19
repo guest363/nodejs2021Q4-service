@@ -11,7 +11,9 @@ type columnsConstructorT = {
 
 export class Columns {
   id!: string;
+
   title!: string;
+
   order!: number;
 
   constructor({

@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TaskEntity } from './task';
+import type { TaskEntity } from './task';
 
 /**
  * Entity Пользователь

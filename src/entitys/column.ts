@@ -6,8 +6,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BoardEntity } from './board';
-import { TaskEntity } from './task';
+import type { BoardEntity } from './board';
+import type { TaskEntity } from './task';
 
 /**
  * Entity Columns

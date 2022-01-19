@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { UserEntity } from './../../entitys/user';
+import { UserEntity } from '../../entitys/user';
 import { userSetT } from './types';
 import { User } from './user.model';
 
@@ -9,7 +9,10 @@ export const usersRepo = {
    *
    * @returns список всех пользователей
    */
-  getAll: async (): Promise<User[]> => await getRepository(UserEntity).find(),
+  getAll: async (): Promise<User[]> => {
+    const result = await getRepository(UserEntity).find();
+    return result;
+  },
   /**
    * Создает и возвращает нового пользователя
    *
@@ -29,8 +32,10 @@ export const usersRepo = {
    * @param id - ID запрашиваемого пользователся
    * @returns полученный по ID пользователь
    */
-  getById: async (id: string): Promise<User | void> =>
-    await getRepository(UserEntity).findOne(id),
+  getById: async (id: string): Promise<User | void> => {
+    const result = await getRepository(UserEntity).findOne(id);
+    return result;
+  },
   /**
    * Удаляет пользователя по ID
    *
@@ -40,7 +45,7 @@ export const usersRepo = {
   delete: async (id: string): Promise<boolean | Error> => {
     const result = await getRepository(UserEntity).delete(id);
 
-    return result.affected === 0 ? false : true;
+    return result.affected !== 0;
   },
   /**
    * Обновляет пользователя по ID
@@ -52,6 +57,6 @@ export const usersRepo = {
   update: async (id: string, user: userSetT): Promise<User | Error> => {
     await getRepository(UserEntity).update(id, user);
 
-    return { id: id, ...user };
+    return { id, ...user };
   },
 };
