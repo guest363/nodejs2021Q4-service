@@ -1,10 +1,9 @@
 version: '3.9'
 services:
   db:
-    build:
-      context: ./db
+    build: ./db
     volumes:
-      - ./db:/db
+      - data:/var/lib/postgresql/data
     restart: on-failure:5
     ports:
       - '${PGPORT}:${PGPORT}'
@@ -26,3 +25,6 @@ services:
 networks:
   default:
     name: rs-net
+volumes:
+  data:
+    external: true
