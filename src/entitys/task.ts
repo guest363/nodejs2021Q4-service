@@ -5,9 +5,9 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import type { BoardEntity } from './board';
-import type { ColumnsEntity } from './column';
-import type { UserEntity } from './user';
+import { BoardEntity } from './board';
+import { ColumnsEntity } from './column';
+import { UserEntity } from './user';
 
 /**
  * Entity Задача
