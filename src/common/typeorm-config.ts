@@ -18,5 +18,6 @@ export default {
   cli: {
     migrationsDir: 'src/migration',
   },
-  synchronize: true,
+  synchronize: false,
+  migrationsRun: true,
 } as ConnectionOptions;
