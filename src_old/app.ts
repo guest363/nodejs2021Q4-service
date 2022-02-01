@@ -4,7 +4,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import typeOrmConfig from './common/typeorm-config';
+import typeOrmConfig from '../src/common/typeorm-config';
 import { Logger } from './logger';
 import { boardRouter } from './resources/boards/board.router';
 import { taskRouter } from './resources/tasks/task.router';

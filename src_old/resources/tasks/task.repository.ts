@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { TaskEntity } from '../../entitys/task';
+import { TaskEntity } from '../../../src/entitys/task';
 import { Task } from './task.model';
 import {
   taskApiCreateT,

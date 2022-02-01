@@ -1,5 +1,5 @@
 import { boardRepo } from './board.repository';
-import { boardSetT } from './types';
+import { BoardSetT } from '../../../src/boards/types';
 
 export const boardService = {
   /**
@@ -14,7 +14,7 @@ export const boardService = {
    * @param info - данные для создания новой доски
    * @returns созданная доска
    */
-  create: (info: boardSetT) => boardRepo.create(info),
+  create: (info: BoardSetT) => boardRepo.create(info),
   /**
    * Возвращает доску по ID
    *
@@ -36,5 +36,5 @@ export const boardService = {
    * @param user - новые данные доски
    * @returns обновленная доска
    */
-  update: (id: string, board: boardSetT) => boardRepo.update(id, board),
+  update: (id: string, board: BoardSetT) => boardRepo.update(id, board),
 };

@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import buildApp from './app';
-import { config } from './common/config';
+import { config } from '../src/common/config';
 import { Logger } from './logger';
 
 let fastify: FastifyInstance;

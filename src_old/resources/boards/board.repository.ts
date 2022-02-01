@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
-import { BoardEntity } from '../../entitys/board';
-import { Board } from './board.model';
-import { boardSetT } from './types';
+import { BoardEntity } from '../../../src/entitys/board';
+import { Board } from '../../../src/boards/models/board.model';
+import { BoardSetT } from '../../../src/boards/types';
 
 export const boardRepo = {
   /**
@@ -19,7 +19,7 @@ export const boardRepo = {
    * @param info - данные для создания новой доски
    * @returns созданная доска
    */
-  create: async (info: boardSetT): Promise<Board> => {
+  create: async (info: BoardSetT): Promise<Board> => {
     const board = new Board(info);
 
     await getRepository(BoardEntity).save(board);
@@ -54,7 +54,7 @@ export const boardRepo = {
    * @param user - новые данные доски
    * @returns обновленная доска
    */
-  update: async (id: string, board: boardSetT): Promise<Board | Error> => {
+  update: async (id: string, board: BoardSetT): Promise<Board | Error> => {
     const updatedBoard = await getRepository(BoardEntity).findOne(id);
 
     if (updatedBoard) {

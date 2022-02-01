@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { boardService } from '../board.service';
-import { boardSetT } from '../types';
+import { BoardSetT } from '../../../../src/boards/types';
 
 /**
  * Endpoint для обновления доски
@@ -17,7 +17,7 @@ export const put = async (request: FastifyRequest, reply: FastifyReply) => {
    */
   const updateBoard = await boardService.update(
     boardId,
-    request.body as boardSetT
+    request.body as BoardSetT
   );
   await reply.code(200).send(updateBoard);
 };

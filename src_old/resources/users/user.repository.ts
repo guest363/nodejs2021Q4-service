@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { UserEntity } from '../../entitys/user';
+import { UserEntity } from '../../../src/entitys/user';
 import { userSetT } from './types';
 import { User } from './user.model';
 

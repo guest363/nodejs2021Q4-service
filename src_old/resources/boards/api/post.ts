@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { boardService } from '../board.service';
-import { boardSetT } from '../types';
+import { BoardSetT } from '../../../../src/boards/types';
 
 /**
  * Endpoint для создания доски
@@ -14,7 +14,7 @@ export const post = async (request: FastifyRequest, reply: FastifyReply) => {
   /**
    * В типе body мы уверены за счет схемы postSchema которая валидирует JSON
    */
-  const createBoard = await boardService.create(request.body as boardSetT);
+  const createBoard = await boardService.create(request.body as BoardSetT);
 
   await reply.code(201).send(createBoard);
 };
