@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 import { UserEntity } from '../../../src/entitys/user';
-import { userSetT } from './types';
-import { User } from './user.model';
+import { UserSetT } from '../../../src/users/types';
+import { User } from '../../../src/users/models/user.model';
 
 export const usersRepo = {
   /**
@@ -19,7 +19,7 @@ export const usersRepo = {
    * @param info - данные для создания нового пользователя
    * @returns созданный пользователь
    */
-  create: async (info: userSetT): Promise<User> => {
+  create: async (info: UserSetT): Promise<User> => {
     const user = new User(info);
     await getRepository(UserEntity).save(user);
 
@@ -54,7 +54,7 @@ export const usersRepo = {
    * @param user - новые данные пользователя
    * @returns обновленный пользователь
    */
-  update: async (id: string, user: userSetT): Promise<User | Error> => {
+  update: async (id: string, user: UserSetT): Promise<User | Error> => {
     await getRepository(UserEntity).update(id, user);
 
     return { id, ...user };

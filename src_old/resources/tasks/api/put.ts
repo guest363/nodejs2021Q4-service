@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { boardService } from '../../boards/board.service';
-import { Task } from '../task.model';
+import { Task } from '../../../../src/tasks/models/task.model';
 import { taskService } from '../task.service';
 
 /**

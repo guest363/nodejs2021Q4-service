@@ -1,13 +1,13 @@
 import { getRepository } from 'typeorm';
 import { TaskEntity } from '../../../src/entitys/task';
-import { Task } from './task.model';
+import { Task } from '../../../src/tasks/models/task.model';
 import {
-  taskApiCreateT,
-  taskApiDeleteT,
-  taskApiGetAllT,
-  taskApiGetByIdT,
-  taskApiUpdateT,
-} from './types';
+  TaskApiCreateT,
+  TaskApiDeleteT,
+  TaskApiGetAllT,
+  TaskApiGetByIdT,
+  TaskApiUpdateT,
+} from '../../../src/tasks/types';
 
 export const taskRepo = {
   /**
@@ -16,7 +16,7 @@ export const taskRepo = {
    * @param info - info.boardId ИД с какой доски собирать задачи
    * @returns список всех задач
    */
-  getAll: async (props: taskApiGetAllT): Promise<Task[]> => {
+  getAll: async (props: TaskApiGetAllT): Promise<Task[]> => {
     const result = await getRepository(TaskEntity).find({
       boardId: props.boardId,
     });
@@ -40,7 +40,7 @@ export const taskRepo = {
    * - info.boardId id к какой доске привязать
    * @returns созданная задача
    */
-  create: async ({ task, boardId }: taskApiCreateT): Promise<Task> => {
+  create: async ({ task, boardId }: TaskApiCreateT): Promise<Task> => {
     const newTask = getRepository(TaskEntity).create({ ...task, boardId });
     await getRepository(TaskEntity).save(newTask);
 
@@ -53,7 +53,7 @@ export const taskRepo = {
    * - info.id запрашиваемой задачи
    * @returns полученная по ID задача
    */
-  getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> => {
+  getById: async ({ taskId }: TaskApiGetByIdT): Promise<Task | void> => {
     const result = await getRepository(TaskEntity).findOne(taskId);
     return result;
   },
@@ -65,7 +65,7 @@ export const taskRepo = {
    * - true в случае успеха
    * - Error в случае ошибки
    */
-  delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> => {
+  delete: async ({ taskId }: TaskApiDeleteT): Promise<boolean | Error> => {
     const result = await getRepository(TaskEntity).delete(taskId);
 
     return result.affected !== 0;
@@ -84,7 +84,7 @@ export const taskRepo = {
     boardId,
     taskId,
     task,
-  }: taskApiUpdateT): Promise<Task | Error> => {
+  }: TaskApiUpdateT): Promise<Task | Error> => {
     const savedTask = await getRepository(TaskEntity).findOne({
       where: { id: taskId, boardId },
     });

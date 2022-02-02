@@ -1,4 +1,4 @@
-import { userSetT } from './types';
+import { UserSetT } from '../../../src/users/types';
 import { usersRepo } from './user.repository';
 
 /**
@@ -17,7 +17,7 @@ export const usersService = {
    * @param info - данные для создания нового пользователя
    * @returns созданный пользователь
    */
-  create: (info: userSetT) => usersRepo.create(info),
+  create: (info: UserSetT) => usersRepo.create(info),
   /**
    * Возвращает пользователя по ID
    *
@@ -39,5 +39,5 @@ export const usersService = {
    * @param user - новые данные пользователя
    * @returns обновленный пользователь
    */
-  update: (id: string, user: userSetT) => usersRepo.update(id, user),
+  update: (id: string, user: UserSetT) => usersRepo.update(id, user),
 };

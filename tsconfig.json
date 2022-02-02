@@ -22,6 +22,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["src_old/**/*", "src/common", "src/entitys", "src/boards/types.ts", "src/boards/models/board.model.ts", "src/boards/columns.model.ts"],
+  "include": ["src_old/**/*", "src/common", "src/entitys", "src/boards/types.ts", "src/boards/models/board.model.ts", "src/boards/columns.model.ts", "src/users/types.ts", "src/users/models/user.model.ts", "src/tasks/types.ts", "src/tasks/models/task.model.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

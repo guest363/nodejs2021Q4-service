@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { userSetT } from '../types';
+import { UserSetT } from '../../../../src/users/types';
 import { usersService } from '../user.service';
 
 /**
@@ -16,7 +16,7 @@ export const put = async (request: FastifyRequest, reply: FastifyReply) => {
    */
   const updateUser = await usersService.update(
     (request.params as { userId: string }).userId,
-    request.body as userSetT
+    request.body as UserSetT
   );
   await reply.code(200).send(updateUser);
 };

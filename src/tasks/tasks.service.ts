@@ -1,20 +1,37 @@
-import { taskRepo } from './task.repository';
+import { Injectable } from '@nestjs/common';
+import { getRepository } from 'typeorm';
+import { TaskEntity } from '../entitys/task';
 import {
   TaskApiCreateT,
   TaskApiDeleteT,
   TaskApiGetAllT,
   TaskApiGetByIdT,
   TaskApiUpdateT,
-} from '../../../src/tasks/types';
+} from './types';
 
-export const taskService = {
+@Injectable()
+export class TasksService {
   /**
    * Возвращает список всех задач на доске
    *
    * @param info - info.boardId ИД с какой доски собирать задачи
    * @returns список всех задач
    */
-  getAll: (props: TaskApiGetAllT) => taskRepo.getAll(props),
+  async getAll(props: TaskApiGetAllT) {
+    const result = await getRepository(TaskEntity).find({
+      boardId: props.boardId,
+    });
+    return result;
+  }
+  /**
+   * Служеюная функция для получения всех задачь со всех бордов
+   *
+   * @returns возвращает все задачи со всех бордов
+   */
+  async supportGetAll() {
+    const result = await getRepository(TaskEntity).find();
+    return result;
+  }
 
   /**
    * Создает и возвращает новую задачу
@@ -24,7 +41,13 @@ export const taskService = {
    * - info.boardId id к какой доске привязать
    * @returns созданная задача
    */
-  create: (props: TaskApiCreateT) => taskRepo.create(props),
+  async create({ task, boardId }: TaskApiCreateT) {
+    const newTask = getRepository(TaskEntity).create({ ...task, boardId });
+    await getRepository(TaskEntity).save(newTask);
+
+    return newTask;
+  }
+
   /**
    * Возвращает задачу по ID
    *
@@ -32,7 +55,11 @@ export const taskService = {
    * - info.id запрашиваемой задачи
    * @returns полученная по ID задача
    */
-  getById: (props: TaskApiGetByIdT) => taskRepo.getById(props),
+  async getById({ taskId }: TaskApiGetByIdT) {
+    const result = await getRepository(TaskEntity).findOne(taskId);
+    return result;
+  }
+
   /**
    * Удаляет задачу по ИД
    *
@@ -41,7 +68,12 @@ export const taskService = {
    * - true в случае успеха
    * - Error в случае ошибки
    */
-  delete: (props: TaskApiDeleteT) => taskRepo.delete(props),
+  async delete({ taskId }: TaskApiDeleteT) {
+    const result = await getRepository(TaskEntity).delete(taskId);
+
+    return result.affected !== 0;
+  }
+
   /**
    * Обновляет задачу
    *
@@ -52,11 +84,19 @@ export const taskService = {
    * @returns  - Error в случае ошибки обновления, если задачи для обновления нет
    * - обновленную задачу в случае успеха
    */
-  update: (props: TaskApiUpdateT) => taskRepo.update(props),
-  /**
-   * Служеюная функция для получения всех задачь со всех бордов
-   *
-   * @returns возвращает все задачи со всех бордов
-   */
-  supportGetAll: () => taskRepo.supportGetAll(),
-};
+  async update({ boardId, taskId, task }: TaskApiUpdateT) {
+    const savedTask = await getRepository(TaskEntity).findOne({
+      where: { id: taskId, boardId },
+    });
+
+    if (!savedTask) {
+      throw new Error('Task not update');
+    }
+
+    const newTask = { ...savedTask, ...task };
+
+    await getRepository(TaskEntity).save(newTask);
+
+    return newTask;
+  }
+}
