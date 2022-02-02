@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -30,19 +31,22 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getById(@Param('id') id: string) {
+  async getById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.usersService.getById(id);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id', ParseUUIDPipe) id: string) {
     return await this.usersService.delete(id);
   }
 
-  @Put()
+  @Put(':id')
   @HttpCode(HttpStatus.OK)
-  async update(@Param('id') id: string, @Body() board: UserSetT) {
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() board: UserSetT
+  ) {
     return await this.usersService.update(id, board);
   }
 }
