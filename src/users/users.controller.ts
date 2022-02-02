@@ -31,20 +31,20 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getById(@Param('id', ParseUUIDPipe) id: string) {
+  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.usersService.getById(id);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id', ParseUUIDPipe) id: string) {
+  async delete(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.usersService.delete(id);
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   async update(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() board: UserSetT
   ) {
     return await this.usersService.update(id, board);
