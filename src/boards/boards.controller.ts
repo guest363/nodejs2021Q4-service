@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
   HttpStatus,
   Param,
   ParseUUIDPipe,
@@ -34,13 +35,33 @@ export class BoardsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    return await this.boardService.getById(id);
+    const board = await this.boardService.getById(id);
+    if (!board) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: `Cant't find boad with id ${id}`,
+        },
+        HttpStatus.FORBIDDEN
+      );
+    }
+    return board;
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id', new ParseUUIDPipe()) id: string) {
-    return await this.boardService.delete(id);
+    const deleteResult = await this.boardService.delete(id);
+    if (deleteResult instanceof Error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: `Cant't find boad with id ${id}`,
+        },
+        HttpStatus.FORBIDDEN
+      );
+    }
+    return deleteResult;
   }
 
   @Put(':id')

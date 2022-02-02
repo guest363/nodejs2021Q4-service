@@ -22,10 +22,13 @@ export class BoardService {
     return result;
   }
 
-  async delete(id: string) {
-    const result = await getRepository(BoardEntity).delete(id);
-
-    return result.affected !== 0;
+  async delete(id: string): Promise<boolean | Error> {
+    try {
+      const result = await getRepository(BoardEntity).delete(id);
+      return result.affected !== 0;
+    } catch (error) {
+      throw new Error('Board dose not exist');
+    }
   }
 
   async update(id: string, board: BoardSetT) {
