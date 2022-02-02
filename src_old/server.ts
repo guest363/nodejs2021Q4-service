@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import buildApp from './app';
 import { config } from '../src/common/config';
-import { Logger } from './logger';
+import { LoggerCustom } from '../src/logger';
 
 let fastify: FastifyInstance;
-const logger = new Logger(config.LOG_LEVEL);
+const logger = new LoggerCustom(config.LOG_LEVEL);
 
 /**
  * Анонимная функция инициализирующая работу сервера

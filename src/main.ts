@@ -6,11 +6,14 @@ import {
 import { AjvValidationPipe } from 'nestjs-ajv-glue';
 import { AppModule } from './app.module';
 import { config } from './common/config';
+import { LoggerCustom } from './logger';
+
+const logger = new LoggerCustom(config.LOG_LEVEL);
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: true })
+    new FastifyAdapter({ logger: logger.getLogger() })
   );
 
   /** Добавить @AjvQuery @AjvBody @AjvParams валидаторы */
@@ -19,3 +22,20 @@ async function bootstrap() {
   await app.listen(config.PORT, '0.0.0.0');
 }
 bootstrap();
+
+/**
+ * Логируем uncaughtException
+ */
+process.on('uncaughtException', (error) => {
+  logger.error(`uncaughtException - ${error?.message}`);
+  process.exit(1);
+});
+/**
+ * Логируем unhandledRejection
+ */
+process.on('unhandledRejection', (error) => {
+  if (error instanceof Error) {
+    logger.error(`unhandledRejection - ${error?.message}`);
+  } else logger.error(`unhandledRejection`);
+  process.exit(1);
+});

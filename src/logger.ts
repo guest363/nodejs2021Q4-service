@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import pino, { DestinationStream } from 'pino';
 
 enum logLevels {
@@ -29,7 +29,7 @@ const targets = [
 /**
  * Класс отвечающий за логирование в приложении
  */
-export class Logger {
+export class LoggerCustom {
   logLevel = 0;
 
   pino;
@@ -48,7 +48,7 @@ export class Logger {
               statusCode: reply.statusCode,
             };
           },
-          req(request:FastifyRequest) {
+          req(request: FastifyRequest) {
             return {
               method: request.method,
               url: request.url,
@@ -60,22 +60,6 @@ export class Logger {
       },
       pino.transport({ targets }) as DestinationStream
     );
-  }
-
-  /**
-   * Инициализирует хук для логирование тела запросса
-   *
-   * @param app - инстанс fastify
-   */
-  public initHooks(app: FastifyInstance) {
-    if (this.logLevel >= logLevels.info) {
-      app.addHook('preHandler', (req, _reply, done) => {
-        if (req.body) {
-          req.log.info({ body: req.body }, 'parsed body');
-        }
-        done();
-      });
-    }
   }
 
   /**

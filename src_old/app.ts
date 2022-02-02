@@ -5,11 +5,11 @@ import path from 'path';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import typeOrmConfig from '../src/common/typeorm-config';
-import { Logger } from './logger';
+import { LoggerCustom } from '../src/logger';
 import { boardRouter } from './resources/boards/board.router';
 import { taskRouter } from './resources/tasks/task.router';
 import { userRouter } from './resources/users/user.router';
-import { __dirname } from './variables';
+import { __dirname } from '../src/variables';
 
 /**
  *
@@ -17,7 +17,7 @@ import { __dirname } from './variables';
  *
  * @returns Промис резолвищейся в инстанс fastify сервера
  */
-export default async function buildApp(logger: Logger) {
+export default async function buildApp(logger: LoggerCustom) {
   await createConnection(typeOrmConfig);
 
   const app = Fastify({
