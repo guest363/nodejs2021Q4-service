@@ -14,12 +14,12 @@ export class UsersService {
   async create(info: UserSetT) {
     const user = new User(info);
     await getRepository(UserEntity).save(user);
-
-    return user;
+    return user as UserEntity;
   }
 
   async getById(id: string) {
     const result = await getRepository(UserEntity).findOne(id);
+
     return result;
   }
 
@@ -32,6 +32,6 @@ export class UsersService {
   async update(id: string, user: UserSetT) {
     await getRepository(UserEntity).update(id, user);
 
-    return { id, ...user };
+    return { id, ...user } as UserEntity;
   }
 }

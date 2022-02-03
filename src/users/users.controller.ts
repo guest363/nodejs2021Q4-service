@@ -19,22 +19,26 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getAll() {
+  async getAll(): Promise<UserGetT[]> {
     return await this.usersService.getAll();
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() board: UserSetT): Promise<UserGetT> {
-    return await this.usersService.create(board);
+  async create(@Body() user: UserSetT): Promise<UserGetT> {
+    return await this.usersService.create(user);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+  async getById(
+    @Param('id', new ParseUUIDPipe()) id: string
+  ): Promise<UserGetT | void> {
     return await this.usersService.getById(id);
   }
 
