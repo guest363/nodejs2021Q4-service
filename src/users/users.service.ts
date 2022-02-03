@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { getRepository } from 'typeorm';
-import { BoardEntity } from '../entitys/board';
 import { UserEntity } from '../entitys/user';
 import { User } from './models/user.model';
 import { UserSetT } from './types';

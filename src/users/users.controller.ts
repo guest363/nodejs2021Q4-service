@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,8 +10,9 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
-import { UserSetT } from './types';
+import { UserGetT, UserSetT } from './types';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -23,9 +25,10 @@ export class UsersController {
     return await this.usersService.getAll();
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() board: UserSetT) {
+  async create(@Body() board: UserSetT): Promise<UserGetT> {
     return await this.usersService.create(board);
   }
 

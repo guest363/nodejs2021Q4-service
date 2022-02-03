@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { v4 } from 'uuid';
 
 type userConstructorT = {
@@ -17,6 +18,7 @@ export class User {
 
   login!: string;
 
+  @Exclude()
   password!: string;
 
   constructor({
