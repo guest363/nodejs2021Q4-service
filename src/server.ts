@@ -5,15 +5,19 @@ import {
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import { config } from './common/config';
-import { LoggerCustom } from './logger';
+import { LoggerCustom, nestLogLevels } from './logger';
 
 const logger = new LoggerCustom(config.LOG_LEVEL);
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({ logger: logger.getLogger() })
-  );
+  const app = config.USE_FASTIFY
+    ? await NestFactory.create<NestFastifyApplication>(
+        AppModule,
+        new FastifyAdapter({ logger: logger.getLogger() })
+      )
+    : await NestFactory.create<NestFastifyApplication>(AppModule, {
+        logger: nestLogLevels[config.LOG_LEVEL],
+      });
 
   await app.listen(config.PORT, '0.0.0.0');
 }

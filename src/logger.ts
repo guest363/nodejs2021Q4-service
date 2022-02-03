@@ -1,13 +1,21 @@
+import { LogLevel } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import pino, { DestinationStream } from 'pino';
 
-enum logLevels {
+export enum logLevels {
   error = 0, // (ошибка)
   warn = 1, // (предупреждение)
   info = 2, // (информация)
   debug = 3, // (отладочное сообщение)
   trace = 4, // (все сообщения)
 }
+export const nestLogLevels: { [key: number]: LogLevel[] } = {
+  0: ['error'],
+  1: ['error', 'warn'],
+  2: ['error', 'warn', 'debug'],
+  3: ['error', 'warn', 'debug', 'verbose'],
+  4: ['error', 'warn', 'debug', 'verbose', 'log'],
+};
 
 /**
  * Куда писать какие логи
