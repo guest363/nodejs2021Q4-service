@@ -10,7 +10,9 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { BoardService } from './boards.service';
 import { BoardSetT } from './types';
 
@@ -19,6 +21,7 @@ export class BoardsController {
   constructor(private readonly boardService: BoardService) {}
 
   /* Get all boards from the database. */
+  @UseGuards(JwtAuthGuard)
   @Get()
   @HttpCode(HttpStatus.OK)
   async getAll() {
@@ -26,12 +29,14 @@ export class BoardsController {
   }
 
   /* Create a new board and save it to the database. */
+  @UseGuards(JwtAuthGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() board: BoardSetT) {
     return await this.boardService.create(board);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async getById(@Param('id', new ParseUUIDPipe()) id: string) {
@@ -48,6 +53,7 @@ export class BoardsController {
     return board;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id', new ParseUUIDPipe()) id: string) {
@@ -64,6 +70,7 @@ export class BoardsController {
     return deleteResult;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   async update(
