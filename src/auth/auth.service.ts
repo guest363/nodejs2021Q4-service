@@ -12,6 +12,12 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
+  /**
+   * If the user exists and the password is correct, return the user. Otherwise, return null
+   * @param {string} username - The username of the user.
+   * @param {string} pass - string
+   * @returns The user entity without the password field.
+   */
   async validateUser(
     username: string,
     pass: string
@@ -26,6 +32,11 @@ export class AuthService {
     return null;
   }
 
+  /**
+   * It takes a user object and returns a token
+   * @param {User} user - User
+   * @returns The token is being returned.
+   */
   async login(user: User) {
     const payload = { userId: user.id, login: user.login };
     return {
