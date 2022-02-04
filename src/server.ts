@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
@@ -18,6 +19,8 @@ async function bootstrap() {
     : await NestFactory.create<NestFastifyApplication>(AppModule, {
         logger: nestLogLevels[config.LOG_LEVEL],
       });
+
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(config.PORT, '0.0.0.0');
 }
