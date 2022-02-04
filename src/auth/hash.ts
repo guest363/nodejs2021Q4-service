@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 /**
  * Generate a salt and hash the password using the salt
- * @param {string} password - The password to be hashed.
+ * @param password - The password to be hashed.
  * @returns The salt and the derived key.
  */
 export async function hash(password: string): Promise<string> {
@@ -12,7 +12,7 @@ export async function hash(password: string): Promise<string> {
 
     crypto.scrypt(password, salt, 64, (err, derivedKey) => {
       if (err) reject(err);
-      resolve(salt + ':' + derivedKey.toString('hex'));
+      resolve(`${salt}:${derivedKey.toString('hex')}`);
     });
   });
 }

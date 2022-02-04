@@ -24,7 +24,7 @@ async function bootstrap() {
 
   await app.listen(config.PORT, '0.0.0.0');
 }
-bootstrap();
+bootstrap() as unknown as void;
 
 /**
  * Логируем uncaughtException

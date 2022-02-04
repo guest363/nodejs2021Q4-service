@@ -7,7 +7,9 @@ import { hash } from '../../auth/hash';
  */
 export class User {
   id!: string;
+
   name!: string;
+
   login!: string;
 
   @Exclude()

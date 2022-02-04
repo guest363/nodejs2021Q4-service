@@ -14,7 +14,7 @@ export class UsersService {
   async create(info: UserSetT) {
     const user = new User(info);
     await getRepository(UserEntity).save(user);
-    return user as UserEntity;
+    return user as unknown as UserEntity;
   }
 
   async getById(id: string) {
@@ -35,7 +35,7 @@ export class UsersService {
     return { id, ...user } as UserEntity;
   }
 
-  async findOne(username: string): Promise<User | undefined> {
+  async findOne(username: string): Promise<UserEntity | undefined> {
     return await getRepository(UserEntity).findOne({ name: username });
   }
 }

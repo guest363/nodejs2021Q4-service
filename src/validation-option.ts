@@ -4,5 +4,5 @@ import { ValidatorOptions } from '@nestjs/common/interfaces/external/validator-o
 export interface ValidationPipeOptions extends ValidatorOptions {
   transform?: boolean;
   disableErrorMessages?: boolean;
-  exceptionFactory?: (errors: ValidationError[]) => any;
+  exceptionFactory?: (errors: ValidationError[]) => unknown;
 }
