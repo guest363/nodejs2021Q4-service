@@ -6,6 +6,7 @@ import { BoardsModule } from './boards/boards.module';
 import typeormConfig from './common/typeorm-config';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     TasksModule,
     TypeOrmModule.forRoot(typeormConfig),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

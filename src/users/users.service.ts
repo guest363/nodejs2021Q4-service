@@ -34,4 +34,8 @@ export class UsersService {
 
     return { id, ...user } as UserEntity;
   }
+
+  async findOne(username: string): Promise<User | undefined> {
+    return await getRepository(UserEntity).findOne({ name: username });
+  }
 }
