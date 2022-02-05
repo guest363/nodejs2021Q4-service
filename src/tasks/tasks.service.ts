@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { getRepository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { TaskEntity } from '../entitys/task';
 import {
   TaskApiCreateT,
@@ -11,6 +12,10 @@ import {
 
 @Injectable()
 export class TasksService {
+  constructor(
+    @InjectRepository(TaskEntity)
+    private taskRepository: Repository<TaskEntity>
+  ) {}
   /**
    * Возвращает список всех задач на доске
    *
@@ -18,7 +23,7 @@ export class TasksService {
    * @returns список всех задач
    */
   async getAll(props: TaskApiGetAllT) {
-    const result = await getRepository(TaskEntity).find({
+    const result = await this.taskRepository.find({
       boardId: props.boardId,
     });
     return result;
@@ -30,7 +35,7 @@ export class TasksService {
    * @returns возвращает все задачи со всех бордов
    */
   async supportGetAll() {
-    const result = await getRepository(TaskEntity).find();
+    const result = await this.taskRepository.find();
     return result;
   }
 
@@ -43,8 +48,8 @@ export class TasksService {
    * @returns созданная задача
    */
   async create({ task, boardId }: TaskApiCreateT) {
-    const newTask = getRepository(TaskEntity).create({ ...task, boardId });
-    await getRepository(TaskEntity).save(newTask);
+    const newTask = this.taskRepository.create({ ...task, boardId });
+    await this.taskRepository.save(newTask);
 
     return newTask;
   }
@@ -57,7 +62,7 @@ export class TasksService {
    * @returns полученная по ID задача
    */
   async getById({ taskId }: TaskApiGetByIdT) {
-    const result = await getRepository(TaskEntity).findOne(taskId);
+    const result = await this.taskRepository.findOne(taskId);
     return result;
   }
 
@@ -70,7 +75,7 @@ export class TasksService {
    * - Error в случае ошибки
    */
   async delete({ taskId, boardId }: TaskApiDeleteT) {
-    const delTasks = await getRepository(TaskEntity).findOne({
+    const delTasks = await this.taskRepository.findOne({
       boardId,
       id: taskId,
     });
@@ -78,7 +83,7 @@ export class TasksService {
       throw new HttpException('not found', HttpStatus.NOT_FOUND);
     }
 
-    const result = await getRepository(TaskEntity).delete(taskId);
+    const result = await this.taskRepository.delete(taskId);
     return result.affected !== 0;
   }
 
@@ -93,7 +98,7 @@ export class TasksService {
    * - обновленную задачу в случае успеха
    */
   async update({ boardId, taskId, task }: TaskApiUpdateT) {
-    const savedTask = await getRepository(TaskEntity).findOne({
+    const savedTask = await this.taskRepository.findOne({
       where: { id: taskId, boardId },
     });
 
@@ -103,7 +108,7 @@ export class TasksService {
 
     const newTask = { ...savedTask, ...task };
 
-    await getRepository(TaskEntity).save(newTask);
+    await this.taskRepository.save(newTask);
 
     return newTask;
   }
