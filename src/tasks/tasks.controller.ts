@@ -52,18 +52,22 @@ export class TasksController {
           status: HttpStatus.NOT_FOUND,
           error: `Cant't find task with id ${id}`,
         },
-        HttpStatus.FORBIDDEN
+        HttpStatus.NOT_FOUND
       );
     }
     return task;
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':id')
+  @Delete(':tasksId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id', new ParseUUIDPipe()) id: string) {
+  async delete(
+    @Param('tasksId', new ParseUUIDPipe()) tasksId: string,
+    @Param('boardId') boardId: string
+  ) {
     const deleteResult = await this.tasksService.delete({
-      taskId: id,
+      taskId: tasksId,
+      boardId: boardId,
     });
 
     return deleteResult;

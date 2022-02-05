@@ -47,7 +47,7 @@ export class BoardsController {
           status: HttpStatus.NOT_FOUND,
           error: `Cant't find boad with id ${id}`,
         },
-        HttpStatus.FORBIDDEN
+        HttpStatus.NOT_FOUND
       );
     }
     return board;
@@ -64,7 +64,7 @@ export class BoardsController {
           status: HttpStatus.NOT_FOUND,
           error: `Cant't find boad with id ${id}`,
         },
-        HttpStatus.FORBIDDEN
+        HttpStatus.NOT_FOUND
       );
     }
     return deleteResult;

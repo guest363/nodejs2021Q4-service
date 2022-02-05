@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { getRepository } from 'typeorm';
 import { TaskEntity } from '../entitys/task';
 import {
@@ -69,9 +69,16 @@ export class TasksService {
    * - true в случае успеха
    * - Error в случае ошибки
    */
-  async delete({ taskId }: TaskApiDeleteT) {
-    const result = await getRepository(TaskEntity).delete(taskId);
+  async delete({ taskId, boardId }: TaskApiDeleteT) {
+    const delTasks = await getRepository(TaskEntity).findOne({
+      boardId,
+      id: taskId,
+    });
+    if (!delTasks) {
+      throw new HttpException('not found', HttpStatus.NOT_FOUND);
+    }
 
+    const result = await getRepository(TaskEntity).delete(taskId);
     return result.affected !== 0;
   }
 
