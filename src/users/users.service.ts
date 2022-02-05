@@ -1,13 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { getRepository } from 'typeorm';
+import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { getRepository, Repository } from 'typeorm';
+import { hash } from '../auth/hash';
 import { UserEntity } from '../entitys/user';
 import { User } from './models/user.model';
 import { UserSetT } from './types';
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectRepository(UserEntity)
+    private usersRepository: Repository<UserEntity>
+  ) {}
+
   async getAll() {
-    const result = await getRepository(UserEntity).find();
+    const result = await this.usersRepository.find();
     return result;
   }
 
@@ -37,5 +44,28 @@ export class UsersService {
 
   async findOne(username: string): Promise<UserEntity | undefined> {
     return await getRepository(UserEntity).findOne({ name: username });
+  }
+
+  async onModuleInit() {
+    const createAdmin = new User({
+      password: await hash(String('admin')),
+      login: 'admin',
+      name: 'admin',
+    });
+    console.log(createAdmin);
+    
+  /*   try {
+      const adminFind = await getRepository(UserEntity).findOne({
+        login: 'admin',
+        name: 'admin',
+      });
+      console.log(adminFind);
+
+      if (!adminFind) {
+        await getRepository(UserEntity).save(createAdmin);
+      }
+    } catch (error) {
+      Logger.error(error);
+    } */
   }
 }
