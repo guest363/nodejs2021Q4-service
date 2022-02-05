@@ -1,9 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import { config } from './common/config';
 import { LoggerCustom, nestLogLevels } from './logger';
@@ -12,11 +9,10 @@ const logger = new LoggerCustom(config.LOG_LEVEL);
 
 async function bootstrap() {
   const app = config.USE_FASTIFY
-    ? await NestFactory.create<NestFastifyApplication>(
-        AppModule,
-        new FastifyAdapter({ logger: logger.getLogger() })
-      )
-    : await NestFactory.create<NestFastifyApplication>(AppModule, {
+    ? await NestFactory.create<NestFastifyApplication>(AppModule, {
+        logger: nestLogLevels[config.LOG_LEVEL],
+      })
+    : await NestFactory.create(AppModule, {
         logger: nestLogLevels[config.LOG_LEVEL],
       });
 
