@@ -33,8 +33,8 @@ export class TasksController {
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() task: taskSetT, @Param('boardId') boardId: string) {
     const createTask = await this.tasksService.create({
-      boardId: boardId,
-      task: task,
+      boardId,
+      task,
     });
     return createTask;
   }
@@ -67,7 +67,7 @@ export class TasksController {
   ) {
     const deleteResult = await this.tasksService.delete({
       taskId: tasksId,
-      boardId: boardId,
+      boardId,
     });
 
     return deleteResult;
@@ -82,9 +82,9 @@ export class TasksController {
     @Param('boardId') boardId: string
   ) {
     const updatedTask = await this.tasksService.update({
-      boardId: boardId,
+      boardId,
       taskId: id,
-      task: task,
+      task,
     });
 
     return updatedTask;
