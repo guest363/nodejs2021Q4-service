@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getRepository, Repository } from 'typeorm';
-import { hash } from '../auth/hash';
 import { UserEntity } from '../entitys/user';
 import { User } from './models/user.model';
 import { UserSetT } from './types';
@@ -48,24 +47,22 @@ export class UsersService {
 
   async onModuleInit() {
     const createAdmin = new User({
-      password: await hash(String('admin')),
+      password: 'admin',
       login: 'admin',
       name: 'admin',
     });
-    console.log(createAdmin);
-    
-  /*   try {
+
+    try {
       const adminFind = await getRepository(UserEntity).findOne({
         login: 'admin',
         name: 'admin',
       });
-      console.log(adminFind);
 
       if (!adminFind) {
         await getRepository(UserEntity).save(createAdmin);
       }
     } catch (error) {
       Logger.error(error);
-    } */
+    }
   }
 }

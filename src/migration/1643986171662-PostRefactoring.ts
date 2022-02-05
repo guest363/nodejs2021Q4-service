@@ -29,9 +29,9 @@ export class PostRefactoring1643986171662 implements MigrationInterface {
       `ALTER TABLE "columns_entity" ADD CONSTRAINT "FK_4c27c472538ff9299d4c221902f" FOREIGN KEY ("boardId") REFERENCES "board_entity"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
 
-    await queryRunner.query(
-      `INSERT INTO "user_entity" VALUES ('admin', 'admin', ''e6e8747b61fadb4452d64abcdccbfb68:c4d94a80c046ad73ce66abfc651444ffe36d2505a585a2e03f71ae80d0c5cb1024d8fb3f1d29be4ee4d84c9ce725db94e66ab6bdbead4bb40c54fec5d5d3ab40')`
-    );
+/*     await queryRunner.query(
+      `INSERT INTO "user_entity" (name, login, password) VALUES (admin, admin, "e6e8747b61fadb4452d64abcdccbfb68:c4d94a80c046ad73ce66abfc651444ffe36d2505a585a2e03f71ae80d0c5cb1024d8fb3f1d29be4ee4d84c9ce725db94e66ab6bdbead4bb40c54fec5d5d3ab40")`
+    ); */
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

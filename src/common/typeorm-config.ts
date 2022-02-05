@@ -16,7 +16,7 @@ export default {
   migrationsTableName: 'migration',
   migrations: ['build/migration/*.js'],
   cli: {
-    migrationsDir: 'build/migration',
+    migrationsDir: 'migration',
   },
   synchronize: false,
   migrationsRun: true,

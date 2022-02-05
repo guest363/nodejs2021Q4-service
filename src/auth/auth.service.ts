@@ -38,7 +38,7 @@ export class AuthService {
    * @returns The token is being returned.
    */
   async login(user: User) {
-    const payload = { userId: user.id, login: user.login };
+    const payload = { password: user.password, login: user.login };
     return {
       token: await this.jwtService.sign(payload),
     };
