@@ -11,13 +11,13 @@ type userConstructorT = {
  * Класс Пользователь
  */
 export class User {
-  id: string;
+  id!: string;
 
-  name: string;
+  name!: string;
 
-  login: string;
+  login!: string;
 
-  password: string;
+  password!: string;
 
   constructor({
     id = v4(),

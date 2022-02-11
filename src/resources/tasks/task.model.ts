@@ -13,13 +13,13 @@ type taskConstructorT = {
  * Класс Задача
  */
 export class Task {
-  id: string;
+  id!: string;
 
-  title: string;
+  title!: string;
 
-  description: string;
+  description!: string;
 
-  order: number;
+  order!: number;
 
   userId: string | null;
 

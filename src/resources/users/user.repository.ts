@@ -1,7 +1,7 @@
+import { getRepository } from 'typeorm';
+import { UserEntity } from '../../entitys/user';
 import { userSetT } from './types';
 import { User } from './user.model';
-
-const inMemoryDb = new Map() as Map<string, User>;
 
 export const usersRepo = {
   /**
@@ -9,48 +9,44 @@ export const usersRepo = {
    *
    * @returns список всех пользователей
    */
-  getAll: async (): Promise<User[]> =>
-    new Promise((resolve) => {
-      const usersFromDb = [...inMemoryDb.values()];
-      resolve(usersFromDb);
-    }),
+  getAll: async (): Promise<User[]> => {
+    const result = await getRepository(UserEntity).find();
+    return result;
+  },
   /**
    * Создает и возвращает нового пользователя
    *
    * @param info - данные для создания нового пользователя
    * @returns созданный пользователь
    */
-  create: async (info: userSetT): Promise<User> =>
-    new Promise((resolve) => {
-      const user = new User(info);
-      inMemoryDb.set(user.id, user);
-      resolve(user);
-    }),
+  create: async (info: userSetT): Promise<User> => {
+    const user = new User(info);
+    await getRepository(UserEntity).save(user);
+
+    return user;
+  },
+
   /**
    * Возвращает пользователя по ID
    *
    * @param id - ID запрашиваемого пользователся
    * @returns полученный по ID пользователь
    */
-  getById: async (id: string): Promise<User | void> =>
-    new Promise((resolve) => {
-      const user = inMemoryDb.get(id);
-      resolve(user);
-    }),
+  getById: async (id: string): Promise<User | void> => {
+    const result = await getRepository(UserEntity).findOne(id);
+    return result;
+  },
   /**
    * Удаляет пользователя по ID
    *
    * @param id- ID удаляемого пользователся
    * @returns true в случае успеха удаления и ошибка в случае неудачи
    */
-  delete: async (id: string): Promise<boolean | Error> =>
-    new Promise((resolve, reject) => {
-      if (!inMemoryDb.has(id)) {
-        reject(new Error('deleted user not found'));
-      }
-      inMemoryDb.delete(id);
-      resolve(true);
-    }),
+  delete: async (id: string): Promise<boolean | Error> => {
+    const result = await getRepository(UserEntity).delete(id);
+
+    return result.affected !== 0;
+  },
   /**
    * Обновляет пользователя по ID
    *
@@ -58,14 +54,9 @@ export const usersRepo = {
    * @param user - новые данные пользователя
    * @returns обновленный пользователь
    */
-  update: async (id: string, user: userSetT): Promise<User | Error> =>
-    new Promise((resolve, reject) => {
-      const oldUser = inMemoryDb.get(id);
-      if (!oldUser) {
-        reject(new Error('updated user not found'));
-      }
-      const newUser = { ...(oldUser as User), ...user };
-      inMemoryDb.set(id, newUser);
-      resolve(newUser);
-    }),
+  update: async (id: string, user: userSetT): Promise<User | Error> => {
+    await getRepository(UserEntity).update(id, user);
+
+    return { id, ...user };
+  },
 };

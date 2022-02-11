@@ -1,3 +1,5 @@
+import { getRepository } from 'typeorm';
+import { TaskEntity } from '../../entitys/task';
 import { Task } from './task.model';
 import {
   taskApiCreateT,
@@ -7,8 +9,6 @@ import {
   taskApiUpdateT,
 } from './types';
 
-const inMemoryDb = new Map() as Map<string, Task>;
-
 export const taskRepo = {
   /**
    * Возвращает список всех задач на доске
@@ -16,22 +16,21 @@ export const taskRepo = {
    * @param info - info.boardId ИД с какой доски собирать задачи
    * @returns список всех задач
    */
-  getAll: async (props: taskApiGetAllT): Promise<Task[]> =>
-    new Promise((resolve) => {
-      const filtredTasks = [...inMemoryDb.values()].filter(
-        (task) => task.boardId === props.boardId
-      );
-      resolve(filtredTasks);
-    }),
+  getAll: async (props: taskApiGetAllT): Promise<Task[]> => {
+    const result = await getRepository(TaskEntity).find({
+      boardId: props.boardId,
+    });
+    return result;
+  },
   /**
    * Служеюная функция для получения всех задачь со всех бордов
    *
    * @returns возвращает все задачи со всех бордов
    */
-  supportGetAll: async (): Promise<Task[]> =>
-    new Promise((resolve) => {
-      resolve([...inMemoryDb.values()]);
-    }),
+  supportGetAll: async (): Promise<Task[]> => {
+    const result = await getRepository(TaskEntity).find();
+    return result;
+  },
 
   /**
    * Создает и возвращает новую задачу
@@ -41,12 +40,12 @@ export const taskRepo = {
    * - info.boardId id к какой доске привязать
    * @returns созданная задача
    */
-  create: async ({ task, boardId }: taskApiCreateT): Promise<Task> =>
-    new Promise((resolve) => {
-      const createdTask = new Task({ ...task, boardId });
-      inMemoryDb.set(createdTask.id, createdTask);
-      resolve(createdTask);
-    }),
+  create: async ({ task, boardId }: taskApiCreateT): Promise<Task> => {
+    const newTask = getRepository(TaskEntity).create({ ...task, boardId });
+    await getRepository(TaskEntity).save(newTask);
+
+    return newTask;
+  },
   /**
    * Возвращает задачу по ID
    *
@@ -54,10 +53,10 @@ export const taskRepo = {
    * - info.id запрашиваемой задачи
    * @returns полученная по ID задача
    */
-  getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> =>
-    new Promise((resolve) => {
-      resolve(inMemoryDb.get(taskId));
-    }),
+  getById: async ({ taskId }: taskApiGetByIdT): Promise<Task | void> => {
+    const result = await getRepository(TaskEntity).findOne(taskId);
+    return result;
+  },
   /**
    * Удаляет задачу по ИД
    *
@@ -66,14 +65,11 @@ export const taskRepo = {
    * - true в случае успеха
    * - Error в случае ошибки
    */
-  delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> =>
-    new Promise((resolve, reject) => {
-      if (!inMemoryDb.has(taskId)) {
-        reject(new Error('deleted task not found'));
-      }
-      inMemoryDb.delete(taskId);
-      resolve(true);
-    }),
+  delete: async ({ taskId }: taskApiDeleteT): Promise<boolean | Error> => {
+    const result = await getRepository(TaskEntity).delete(taskId);
+
+    return result.affected !== 0;
+  },
   /**
    * Обновляет задачу
    *
@@ -88,14 +84,19 @@ export const taskRepo = {
     boardId,
     taskId,
     task,
-  }: taskApiUpdateT): Promise<Task | Error> =>
-    new Promise((resolve, reject) => {
-      const oldTask = inMemoryDb.get(taskId);
-      if (!oldTask) {
-        reject(new Error('updated task not found'));
-      }
-      const updateTask = { ...(oldTask as Task), ...task, boardId };
-      inMemoryDb.set((oldTask as Task).id, updateTask);
-      resolve(updateTask);
-    }),
+  }: taskApiUpdateT): Promise<Task | Error> => {
+    const savedTask = await getRepository(TaskEntity).findOne({
+      where: { id: taskId, boardId },
+    });
+
+    if (!savedTask) {
+      throw new Error('Task not update');
+    }
+
+    const newTask = { ...savedTask, ...task };
+
+    await getRepository(TaskEntity).save(newTask);
+
+    return newTask;
+  },
 };

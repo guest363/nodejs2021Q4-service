@@ -1,11 +1,14 @@
 version: '3.9'
 services:
   db:
-    build:
-      context: ./db
+    build: ./db
     volumes:
-      - ./db:/db
+      - data:/var/lib/postgresql/data
     restart: on-failure:5
+    ports:
+      - '${PGPORT}:${PGPORT}'
+    env_file:
+      - './.env'
   server:
     build:
       context: ./
@@ -17,6 +20,11 @@ services:
     restart: on-failure:5
     ports:
       - '${PORT}:${PORT}'
+    env_file:
+      - './.env'
 networks:
   default:
     name: rs-net
+volumes:
+  data:
+    external: true

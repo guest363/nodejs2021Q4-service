@@ -36,6 +36,7 @@
     }
   ],
   "rules": {
+    "import/no-cycle": "off",
     "import/extensions": 0,
     "linebreak-style": "off",
     "no-underscore-dangle": "off",

@@ -1,4 +1,4 @@
-import { boardRepo } from './board.memory.repository';
+import { boardRepo } from './board.repository';
 import { boardSetT } from './types';
 
 export const boardService = {

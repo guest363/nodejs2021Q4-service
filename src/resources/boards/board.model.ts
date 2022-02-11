@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import { Columns } from './columns.model';
 
 type boardConstructorT = {
   id?: string;
@@ -12,18 +13,13 @@ type boardConstructorT = {
 /**
  * Класс Доска
  */
+
 export class Board {
-  id: string;
+  id!: string;
 
-  title: string;
+  title!: string;
 
-  columns: {
-    id: string;
-
-    title: string;
-
-    order: number;
-  }[];
+  columns: Columns[] = []; // see = [] initialization here
 
   constructor({
     id = v4(),

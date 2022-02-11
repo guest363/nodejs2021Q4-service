@@ -2,6 +2,9 @@ import Fastify from 'fastify';
 import swaggerUI from 'fastify-swagger';
 import { existsSync } from 'fs';
 import path from 'path';
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import typeOrmConfig from './common/typeorm-config';
 import { Logger } from './logger';
 import { boardRouter } from './resources/boards/board.router';
 import { taskRouter } from './resources/tasks/task.router';
@@ -15,6 +18,8 @@ import { __dirname } from './variables';
  * @returns Промис резолвищейся в инстанс fastify сервера
  */
 export default async function buildApp(logger: Logger) {
+  await createConnection(typeOrmConfig);
+
   const app = Fastify({
     logger: logger.getLogger(),
   });
