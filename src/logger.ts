@@ -1,13 +1,21 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { LogLevel } from '@nestjs/common';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import pino, { DestinationStream } from 'pino';
 
-enum logLevels {
+export enum logLevels {
   error = 0, // (ошибка)
   warn = 1, // (предупреждение)
   info = 2, // (информация)
   debug = 3, // (отладочное сообщение)
   trace = 4, // (все сообщения)
 }
+export const nestLogLevels: { [key: number]: LogLevel[] } = {
+  0: ['error'],
+  1: ['error', 'warn'],
+  2: ['error', 'warn', 'debug'],
+  3: ['error', 'warn', 'debug', 'verbose'],
+  4: ['error', 'warn', 'debug', 'verbose', 'log'],
+};
 
 /**
  * Куда писать какие логи
@@ -29,7 +37,7 @@ const targets = [
 /**
  * Класс отвечающий за логирование в приложении
  */
-export class Logger {
+export class LoggerCustom {
   logLevel = 0;
 
   pino;
@@ -48,7 +56,7 @@ export class Logger {
               statusCode: reply.statusCode,
             };
           },
-          req(request:FastifyRequest) {
+          req(request: FastifyRequest) {
             return {
               method: request.method,
               url: request.url,
@@ -60,22 +68,6 @@ export class Logger {
       },
       pino.transport({ targets }) as DestinationStream
     );
-  }
-
-  /**
-   * Инициализирует хук для логирование тела запросса
-   *
-   * @param app - инстанс fastify
-   */
-  public initHooks(app: FastifyInstance) {
-    if (this.logLevel >= logLevels.info) {
-      app.addHook('preHandler', (req, _reply, done) => {
-        if (req.body) {
-          req.log.info({ body: req.body }, 'parsed body');
-        }
-        done();
-      });
-    }
   }
 
   /**

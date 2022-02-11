@@ -1,2 +1,4 @@
 test/
 migration
+src_old/
+src/**/*.spec.ts

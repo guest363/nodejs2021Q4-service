@@ -1,31 +1,26 @@
-import { FastifyInstance } from 'fastify';
-import buildApp from './app';
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { AppModule } from './app.module';
 import { config } from './common/config';
-import { Logger } from './logger';
+import { LoggerCustom, nestLogLevels } from './logger';
 
-let fastify: FastifyInstance;
-const logger = new Logger(config.LOG_LEVEL);
+const logger = new LoggerCustom(config.LOG_LEVEL);
 
-/**
- * Анонимная функция инициализирующая работу сервера
- */
-(async () => {
-  fastify = await buildApp(logger);
-  try {
-    fastify.listen(config.PORT, '0.0.0.0', () =>
-      fastify.log.info(
-        `App is running on http://localhost:${String(config.PORT)}`
-      )
-    );
-    /* throw new Error('') */
-  } catch (error) {
-    fastify.log.error(error);
-    process.exit(1);
-  }
-})().catch((error: Error) => {
-  logger.error(`Can't buildApp ${error?.message}`);
-  process.exit(1);
-});
+async function bootstrap() {
+  const app = config.USE_FASTIFY
+    ? await NestFactory.create<NestFastifyApplication>(AppModule, {
+        logger: nestLogLevels[config.LOG_LEVEL],
+      })
+    : await NestFactory.create(AppModule, {
+        logger: nestLogLevels[config.LOG_LEVEL],
+      });
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  await app.listen(config.PORT, '0.0.0.0');
+}
+bootstrap() as unknown as void;
 
 /**
  * Логируем uncaughtException
